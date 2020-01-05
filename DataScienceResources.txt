@@ -1,0 +1,67 @@
+
+------------------------------------- You Tube Video Section -----------------------------------------------------------
+
+Python Programming:
+https://www.youtube.com/user/schafer5
+
+
+ML/DL :
+
+Krish Naik
+https://www.youtube.com/channel/UCNU_lfiiWBdtULKOw6X0Dig
+
+Sentdex:
+https://www.youtube.com/user/sentdex
+
+Stats
+https://www.youtube.com/user/joshstarmer
+
+
+Andrew NG
+https://www.youtube.com/channel/UCcIXc5mJsHVYTZR1maL5l9w
+
+
+------------------------------------- Online Reading Website/Books Section -----------------------------------------------------------
+
+R for DataScience:
+https://r4ds.had.co.nz/index.html
+
+Deep Learning eBook:
+http://www.deeplearningbook.org/
+
+
+PDF Copies: 
+
+Python Data Science Handbook:
+https://tanthiamhuat.files.wordpress.com/2018/04/pythondatasciencehandbook.pdf
+
+Think Stats:
+http://greenteapress.com/thinkstats2/thinkstats2.pdf
+
+Rule for ML:
+http://martin.zinkevich.org/rules_of_ml/rules_of_ml.pdf
+
+
+------------------------------------- Datasets Section -----------------------------------------------------------
+
+Below are Free websites for dataset for ML/DL usecase.
+
+Kaggle: https://www.kaggle.com/datasets
+
+UCI: https://archive.ics.uci.edu/ml/index.php
+
+For Financial Dataset-
+Quandl: https://www.quandl.com/
+
+US Government Open Dataset: https://www.data.gov/
+
+Indian Government OpenDataset:https://data.gov.in/
+
+World Bank Dataset: https://data.worldbank.org/
+
+Group Lens dataset: https://grouplens.org/
+
+Awesome Public Dataset: https://github.com/awesomedata/awesome-public-datasets
+
+
+

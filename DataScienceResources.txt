@@ -65,3 +65,10 @@ Awesome Public Dataset: https://github.com/awesomedata/awesome-public-datasets
 
 
 
+--------------------------------- Interview Questions ----------------------------------------------------------------
+
+https://github.com/iNeuronai/interview-question-data-science-
+
+
+--------------------------------- Material to read ----------------------------------------------------------------
+https://github.com/iNeuronai/MachineLearningModelToPivotal/tree/master/MLForCloudDeployment_Pivotal

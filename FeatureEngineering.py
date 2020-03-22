@@ -4,6 +4,8 @@
 #	 Purpose: To keep all useful code handy
 #------------------------------------------------------------------------------------------
 
+# https://github.com/krishnaik06/Feature-Engineering
+
 # ---------------------------------
 # Feature Engineering checklist:
 # ---------------------------------
@@ -81,10 +83,48 @@ df['EDUCATION'].value_counts()
 df["EDUCATION"]=df["EDUCATION"].map({0:4,1:1,2:2,3:3,4:4,5:4,6:4})
 df["MARRIAGE"]=df["MARRIAGE"].map({0:3,1:1,2:2,3:3})
 
+# ---------------- Separating Categorical and Numerical data -------------------
+
+#Approach 1:
+import numpy as np
+cat_col = df.loc[:,df.dtypes==np.object].columns
+numerical_col = df.loc[:,df.dtypes==np.int64].columns
+
+#Approach 2:
+cat_cols=df.select_dtypes(exclude=['float_','number','bool_'])
+num_cols=df.select_dtypes(exclude=['object','bool_'])
+
+#Approach 3:
+#customer id col
+Id_col     = ['customerID']
+#Target columns
+target_col = ["Churn"]
+#categorical columns
+cat_cols   = df.nunique()[df.nunique() < 6].keys().tolist()
+cat_cols   = [x for x in cat_cols if x not in target_col]
+#numerical columns
+num_cols   = [x for x in df.columns if x not in cat_cols + target_col + Id_col]
+#Binary columns with 2 values
+bin_cols   = df.nunique()[df.nunique() == 2].keys().tolist()
+#Columns more than 2 values
+multi_cols = [i for i in cat_cols if i not in bin_cols]
+
+#------------- Label encoding Binary columns
+from sklearn.preprocessing import LabelEncoder
+le = LabelEncoder()
+for i in bin_cols :
+    df[i] = le.fit_transform(df[i])
 
 
+# ---------------- One Hot Encoder -------------------
+    
+#Duplicating columns for multi value columns
+df = pd.get_dummies(data = df,columns = multi_cols )
 
+onehotencoder = OneHotEncoder(sparse=False)
+data_categorical = onehotencoder.fit_transform(data[data_cat])
 
+features = np.concatenate([data_continuous, data_categorical], axis=1)
 
 '''
 # ----------------------------------------------- Data Visualization  -----------------------------------------------
@@ -218,6 +258,9 @@ plt.figure(figsize=(20,20))
 #plot heat map
 g=sns.heatmap(df[top_corr_features].corr(),annot=True,cmap="RdYlGn")
 
+# With Annotation
+corr = df.corr()
+corr.style.background_gradient(cmap='coolwarm').set_precision(2)
 
 # ---------------------------------------------------- Feature Importance ----------------------------------------------------
 
@@ -237,6 +280,8 @@ for name, score in zip(X.columns, model.feature_importances_):
 feat_importances = pd.Series(model.feature_importances_, index=X.columns)
 feat_importances.nlargest(10).plot(kind='bar')
 plt.show()
+
+
 
 
 

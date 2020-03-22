@@ -11,6 +11,9 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 %matplotlib inline
 
+# to display the total number columns present in the dataset
+pd.set_option('display.max_columns', None)
+
 # ---------------  Credit Card Risk Assessment ---------------
 
 df=pd.read_csv('./Dataset/Credit_default_dataset.csv')
@@ -20,7 +23,12 @@ df.head(5)
 df=pd.read_csv('Classified Data.csv',index_col=0)
 df.head()
 
-
+# ----------------- Data Overview --------------------------------
+print ("Rows     : " ,df.shape[0])
+print ("Columns  : " ,df.shape[1])
+print ("\nFeatures : \n" ,df.columns.tolist())
+print ("\nMissing values :  ", df.isnull().sum().values.sum())
+print ("\nUnique values :  \n",df.nunique())
 
 # ------------------------------   Data Collection from Webpage ------------------------------  
 

@@ -28,7 +28,8 @@ df_sentosa=df.loc[df['species'] == 'sentosa']
 np.zeros_like(10)
 
 
-
+# Date Handling
+df_comb['DOJ_Day'] = df_comb['Date_of_Journey'].str.split('/').str[0]
 
 # ----------------------------------------------- Execution Timer Function ----------------------------------------------- 
 # ---------------------- Code for adding start and end timer ----------------------

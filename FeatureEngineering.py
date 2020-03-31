@@ -126,6 +126,27 @@ data_categorical = onehotencoder.fit_transform(data[data_cat])
 
 features = np.concatenate([data_continuous, data_categorical], axis=1)
 
+
+# Handling Large number of Categorical variables.
+# Reference: (http://www.mtome.com/Publications/CiML/CiML-v3-book.pdf    
+def one_hot_top_x(df, variable, top_x_labels):
+    # function to create the dummy variables for the most frequent labels
+    # we can vary the number of most frequent labels that we encode
+    
+    for label in top_x_labels:
+        df[variable+'_'+label] = np.where(data[variable]==label, 1, 0)
+
+# read the data again
+df = pd.read_csv('mercedesbenz.csv', usecols=['X1', 'X2', 'X3', 'X4', 'X5', 'X6'])
+
+# Get list of top 10 variables.
+top_10 = [x for x in df.X2.value_counts().sort_values(ascending=False).head(10).index]
+
+# encode X2 into the 10 most frequent categories
+one_hot_top_x(df, 'X2', top_10)
+df.head()
+
+
 '''
 # ----------------------------------------------- Data Visualization  -----------------------------------------------
 '''
@@ -282,7 +303,16 @@ feat_importances.nlargest(10).plot(kind='bar')
 plt.show()
 
 
+from sklearn.linear_model import Lasso
+from sklearn.feature_selection import SelectFromModel
 
+model=SelectFromModel(Lasso(alpha=0.005,random_state=0))
+model.fit(X_train,y_train)
+
+selected_features=X.columns[(model.get_support())]
+
+X_train=X_train[selected_features]
+X_test=X_test[selected_features]
 
 
 """

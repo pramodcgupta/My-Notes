@@ -23,6 +23,11 @@ df.head(5)
 df=pd.read_csv('Classified Data.csv',index_col=0)
 df.head()
 
+# To combine dataset
+df_comb=df_train.append(df_test, sort=False)
+
+
+
 # ----------------- Data Overview --------------------------------
 print ("Rows     : " ,df.shape[0])
 print ("Columns  : " ,df.shape[1])

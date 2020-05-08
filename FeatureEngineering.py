@@ -3,31 +3,85 @@
 #	 Feature Engineering Code
 #	 Purpose: To keep all useful code handy
 #------------------------------------------------------------------------------------------
-
+# URL for reference for feature Engineering:
 # https://github.com/krishnaik06/Feature-Engineering
+
+# URL For Handling Missing Data
+# https://github.com/abhinokha/MLPy/blob/master/HandlingImbalancedData/Notebook.ipynb
 
 # ---------------------------------
 # Feature Engineering checklist:
 # ---------------------------------
-
-# 1. Check for null values
-# 2. Handle Null/Missing values 
-# 3. Handle Imbalanced Dataset
-# 4. Handle Categorical Variable
-
+#
+# Section 1. Divide test data into Dependent and Indepedent Features
+# Section 2. Spliting Dataset Into Train / Test
+# Section 3. Check for null values
+# Section 4. Handle Null/Missing values 
+# Section 5. Handle Imbalanced Dataset
+# Section 6. Handle Categorical Variable
+# Section 7. Feature Scaling
+# Section 8. Feature Selection
+#
 # ---------------------------------
 
 
-'''
-# ----------------------------------------------- Exploratory Data Analysis (EDA) ----------------------------------------------- 
-'''
+"""
+#  --------------------------------------------  Section 1. Divide test data into Dependent and Indepedent Features  -----------------------  
+"""
 
-# -----------------------------------------------  Always Check for Null Values -----------------------------------------------
+# Method 1:
+X=df.drop(['default.payment.next.month'],axis=1)
+y=df['default.payment.next.month']
 
-sns.heatmap(df.isnull(),yticklabels=False,cbar=False,cmap='viridis')
+# Method 2:
+X=df.iloc[:,:-1].values   # Dropping last column
+y=df.iloc[:,-1].values	  # keeping last column
 
 
-# ----------------------------------------------- Handling Missing Values ----------------------------------------------- 
+"""
+# ----------------------------------------------- Section 2. Spliting Dataset Into Train / Test -----------------------------------------------
+"""
+
+# Option 1: -------------------------------------------- train_test_split -------------------------------------------- 
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.30,random_state=0)
+
+
+# Option 2:  -------------------------------------------- StratifiedShuffleSplit -------------------------------------------- 
+
+from sklearn.model_selection import StratifiedShuffleSplit
+split = StratifiedShuffleSplit(n_splits=1, test_size=0.2, random_state=42)
+
+for train_index, test_index in split.split(housing,housing["income_cat"]): 
+    strat_train_set = housing.loc[train_index]
+    strat_test_set = housing.loc[test_index]
+
+# Option 3:  --------------------------------------------  K Fold Cross Validation -------------------------------------------- 
+
+from sklearn.model_selection import cross_val_score
+score=cross_val_score(classifier,X,y,cv=10)
+
+print(score)
+# array([0.80806398, 0.8083972 , 0.81772742, 0.80473176, 0.81666667, 0.829     , 0.83761254, 0.82994331, 0.83027676, 0.82660887])
+print(score.mean())
+# 0.8209028507040204
+
+
+
+ 
+# ---------------------- ----------------------  Section 3. Identify Missing Values ---------------------------------------------------------------
+  
+ print(df.isnull().values.any())
+  
+ print(df.isnull().sum().sum())
+  
+ print(df.isnull().sum())
+ 
+ # using Heatmap
+ sns.heatmap(df.isnull(),yticklabels=False,cbar=False,cmap='viridis')
+
+# ----------------------------------------------- Section 4. Handling Missing Values ----------------------------------------------- 
 
 #Option 1: Drop Null Rows
 housing1=housing.dropna(subset=["total_bedrooms"]) 
@@ -65,23 +119,17 @@ housing_tr = pd.DataFrame(X, columns=housing_num.columns
 
 
 
-# ----------------------------------------------- Handling Imbalanced Dataset ----------------------------------------------- 
+# ----------------------------------------------- Section 5. Handling Imbalanced Dataset ----------------------------------------------- 
 
 
 
 
 
-# ----------------------------------------------- Handling Categorical Features ----------------------------------------------- 
+# ----------------------------------------------- Section 6. Handling Categorical Features ----------------------------------------------- 
 
 # -------------------- Sort based on index
 housing["income_cat"].value_counts().sort_index()
 
-
-# ---------------- Removing Unwanted categorical levels -------------------
-df['EDUCATION'].value_counts()
-
-df["EDUCATION"]=df["EDUCATION"].map({0:4,1:1,2:2,3:3,4:4,5:4,6:4})
-df["MARRIAGE"]=df["MARRIAGE"].map({0:3,1:1,2:2,3:3})
 
 # ---------------- Separating Categorical and Numerical data -------------------
 
@@ -112,9 +160,13 @@ multi_cols = [i for i in cat_cols if i not in bin_cols]
 #------------- Label encoding Binary columns
 from sklearn.preprocessing import LabelEncoder
 le = LabelEncoder()
-for i in bin_cols :
-    df[i] = le.fit_transform(df[i])
 
+cat_cols1=cat_cols.columns
+
+df[cat_cols1]=df[cat_cols1].apply(le.fit_transform)
+
+# For Single Column
+df['agent_owned']= le.fit_transform(df[agent_owned]) 
 
 # ---------------- One Hot Encoder -------------------
     
@@ -147,115 +199,50 @@ one_hot_top_x(df, 'X2', top_10)
 df.head()
 
 
-'''
-# ----------------------------------------------- Data Visualization  -----------------------------------------------
-'''
 
-# Data Visualization with Pair Plot
+# --------------------------------------- Ordinal Categorical variable -----------------------------------------------------
+# Engineer categorical variable by ordinal number replacement
 
-# Bivariate Analysis
+# 1. Label Encoding
 
-sns.FacetGrid(df, hue="species", size=5).map(plt.scatter, "petal_length","sepal_width").add_legend()
-plt.show()
+weekday_map = {'Monday':1,
+               'Tuesday':2,
+               'Wednesday':3,
+               'Thursday':4,
+               'Friday':5,
+               'Saturday':6,
+               'Sunday':7
+}
 
-# Multivariate Analysis
-sns.pairplot(df, hue="species", size=5)
+df['day_of_week_New'] = df.day_of_week.map(weekday_map)
 
-
-sns.distplot(y)
-
-
-# Discover and visualize the data to gain insights
-housing.plot(kind='scatter',x='longitude',y='latitude')
-plt.title('Location Visualization Graph')
-
-housing.plot(kind="scatter", x="longitude", y="latitude", alpha=0.4,figsize=(15,9),c="median_house_value", cmap=plt.get_cmap("jet"), 
-             colorbar=True,sharex=False,s=housing["population"]/100,label="population")
-plt.legend()
-
-
-# Plotting the graph
-plt.scatter(X,y,color='blue')
-plt.plot(X,X_p,color='red' )              # Red - Linear Regression
-plt.plot(X,x_p2,color='green' )           # Green - Polynomial Regression
-plt.title('Expireince Salary Graph')
-plt.xlabel('Experience')
-plt.ylabel('Salary')
-plt.figure(figsize=(12,7))
-plt.show()
-
-# ----------------------------- Visualize for SVM classification problem ----------------------------------------------------------
-
-from matplotlib.colors import ListedColormap
-X_set, y_set = X_test, y_test
-X1, X2 = np.meshgrid(np.arange(start = X_set[:, 0].min() - 1, stop = X_set[:, 0].max() + 1, step = 0.01),
-                     np.arange(start = X_set[:, 1].min() - 1, stop = X_set[:, 1].max() + 1, step = 0.01))
-plt.contourf(X1, X2, model.predict(np.array([X1.ravel(), X2.ravel()]).T).reshape(X1.shape),
-             alpha = 0.75, cmap = ListedColormap(('red', 'green')))
-plt.xlim(X1.min(), X1.max())
-plt.ylim(X2.min(), X2.max())
-for i, j in enumerate(np.unique(y_set)):
-    plt.scatter(X_set[y_set == j, 0], X_set[y_set == j, 1],
-                c = ListedColormap(('red', 'green'))(i), label = j)
-plt.title('SVM (Training set)')
-plt.xlabel('Age')
-plt.ylabel('Estimated Salary')
-plt.legend()
-plt.show()
+# 2. Count_frequency_encoding
 
 
 
-#-----------------------------  Visualising the Decision Tree/ Random Forest Regression results   -----------------------------
-  
-# arange for creating a range of values 
-# from min value of x to max  
-# value of x with a difference of 0.01  
-# between two consecutive values 
-import numpy as np
-
-X_grid = np.arange(min(X), max(X), 0.01)  
-  
-# reshape for reshaping the data into a len(X_grid)*1 array,  
-# i.e. to make a column out of the X_grid value                   
-X_grid = X_grid.reshape((len(X_grid), 1)) 
-  
-# Scatter plot for original data 
-plt.scatter(X, y, color = 'blue')   
-  
-# plot predicted data 
-plt.plot(X_grid, model.predict(X_grid), color = 'green')  
-plt.title('Decision Regression') 
-plt.xlabel('Position level') 
-plt.ylabel('Salary') 
-plt.show()
 
 
-
-#-----------------------------  Visualising Prediction after model trained  -----------------------------
-prediction=Dtree_regressor.predict(X_test)
-
-sns.distplot(y_test-prediction) 
-# Should give bell shape curve
-
-plt.scatter(y_test,prediction)
-# should be scattred centred at diagonal.
 
 
 """
-#  -----------------------------------------------  Divide test data into Dependent and Indepedent Features  -----------------------------------------------  
+# -------------------------------------------------- Section 7. Feature Scaling -------------------------------------------------------------------------  
 """
 
-# Method 1:
-X=df.drop(['default.payment.next.month'],axis=1)
-y=df['default.payment.next.month']
+# StandardScaler 
+from sklearn.preprocessing import StandardScaler
+sc=StandardScaler()
+X=sc.fit_transform(X)
 
-# Method 2:
-X=df.iloc[:,:-1].values   # Dropping last column
-y=df.iloc[:,-1].values	  # keeping last column
+
+# MinMaxScaler 
+from sklearn.preprocessing import MinMaxScaler
+sc = MinMaxScaler(feature_range = (0, 1))
+X = sc.fit_transform(X)
+
 
 
 '''
-# ------------------------------------------------------------ Feature Selection  -----------------------------------------------------------------------
+# -------------------------------------------------- Section 8. Feature Selection  -----------------------------------------------------------------------
 '''
 
 # ---------------------------------------------------- Correlation Matrix ----------------------------------------------------
@@ -270,7 +257,9 @@ corr_matrix
 corr_matrix["PM 2.5"].sort_values(ascending=False)
 
 
-# Correlation Visualization with Heatmap
+# ---------------------------- Correlation Visualization with Heatmap ----------------------------------------
+
+# ---- Option 1
 import seaborn as sns
 #get correlations of each features in dataset
 corrmat = df.corr()
@@ -283,8 +272,29 @@ g=sns.heatmap(df[top_corr_features].corr(),annot=True,cmap="RdYlGn")
 corr = df.corr()
 corr.style.background_gradient(cmap='coolwarm').set_precision(2)
 
-# ---------------------------------------------------- Feature Importance ----------------------------------------------------
+# ---  Option 2
+mask = np.tril(df1.corr())
+sns.heatmap(df1.corr(), fmt='.1g', annot = True, cmap= 'cool', mask=mask)
 
+# ---  Option 3:
+cnf_matrix = metrics.confusion_matrix(y_test, y_pred)
+
+fig, ax = plt.subplots()
+tick_marks = np.arange(len(class_names))
+plt.xticks(tick_marks, class_names)
+plt.yticks(tick_marks, class_names)
+sns.heatmap(pd.DataFrame(cnf_matrix), annot=True, cmap="viridis" ,fmt='g')
+ax.xaxis.set_label_position("top")
+plt.tight_layout()
+plt.title('Confusion matrix', y=1.1)
+plt.ylabel('Actual label')
+plt.xlabel('Predicted label')
+
+
+# ----- Feature Importance 
+
+
+# ===== Method 1 =======:
 # Feature importance gives you a score for each feature of your data, the higher the score more important or relevant is the feature towards your output variable.
 # Feature importance is an inbuilt class that comes with Tree Based Regressor
 
@@ -302,7 +312,15 @@ feat_importances = pd.Series(model.feature_importances_, index=X.columns)
 feat_importances.nlargest(10).plot(kind='bar')
 plt.show()
 
+# ===== Method 2 =======:
+# -- random Forest Feature Importance
+importances = model_rf.feature_importances_
+weights = pd.Series(importances,
+                 index=X.columns.values)
+weights.sort_values()[-10:].plot(kind = 'barh')
 
+
+# ===== Method 3=======:
 from sklearn.linear_model import Lasso
 from sklearn.feature_selection import SelectFromModel
 
@@ -315,52 +333,12 @@ X_train=X_train[selected_features]
 X_test=X_test[selected_features]
 
 
-"""
-# -------------------------------------------------- Feature Scaling -------------------------------------------------------------------------  
-"""
 
-# StandardScaler 
-from sklearn.preprocessing import StandardScaler
-sc=StandardScaler()
-X=sc.fit_transform(X)
-
-
-# MinMaxScaler 
-from sklearn.preprocessing import MinMaxScaler
-sc = MinMaxScaler(feature_range = (0, 1))
-X = sc.fit_transform(X)
 
 
  
 
-"""
-# ----------------------------------------------- Dataset Split Into Train / Test -----------------------------------------------
-"""
 
-# Option 1: -------------------------------------------- train_test_split -------------------------------------------- 
-
-from sklearn.model_selection import train_test_split
-X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.30,random_state=0)
-
-
-# Option 2:  -------------------------------------------- StratifiedShuffleSplit -------------------------------------------- 
-
-from sklearn.model_selection import StratifiedShuffleSplit
-split = StratifiedShuffleSplit(n_splits=1, test_size=0.2, random_state=42)
-
-for train_index, test_index in split.split(housing,housing["income_cat"]): 
-    strat_train_set = housing.loc[train_index]
-    strat_test_set = housing.loc[test_index]
-
-# Option 3:  --------------------------------------------  K Fold Cross Validation -------------------------------------------- 
-
-from sklearn.model_selection import cross_val_score
-score=cross_val_score(classifier,X,y,cv=10)
-
-print(score)
-# array([0.80806398, 0.8083972 , 0.81772742, 0.80473176, 0.81666667, 0.829     , 0.83761254, 0.82994331, 0.83027676, 0.82660887])
-print(score.mean())
-# 0.8209028507040204
 
 
 

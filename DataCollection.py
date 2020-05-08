@@ -13,19 +13,15 @@ import matplotlib.pyplot as plt
 
 # to display the total number columns present in the dataset
 pd.set_option('display.max_columns', None)
+pd.set_option('display.max_rows', None)
 
-# ---------------  Credit Card Risk Assessment ---------------
+# --------------- Reading data into Pandas dataframe
 
 df=pd.read_csv('./Dataset/Credit_default_dataset.csv')
 df.head(5)
 
-# ---------------  Classified Data for KNN ---------------
-df=pd.read_csv('Classified Data.csv',index_col=0)
-df.head()
-
 # To combine dataset
-df_comb=df_train.append(df_test, sort=False)
-
+df_comb=df.append(df_test, sort=False)
 
 
 # ----------------- Data Overview --------------------------------
@@ -34,6 +30,8 @@ print ("Columns  : " ,df.shape[1])
 print ("\nFeatures : \n" ,df.columns.tolist())
 print ("\nMissing values :  ", df.isnull().sum().values.sum())
 print ("\nUnique values :  \n",df.nunique())
+
+
 
 # ------------------------------   Data Collection from Webpage ------------------------------  
 

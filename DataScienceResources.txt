@@ -63,6 +63,8 @@ Group Lens dataset: https://grouplens.org/
 
 Awesome Public Dataset: https://github.com/awesomedata/awesome-public-datasets
 
+DataSet for Images:
+https://drive.google.com/file/d/1Vit1tkEs82zLjVhfZN6EI6Sm9OWG-HEb/view?usp=sharing
 
 
 --------------------------------- Interview Questions ----------------------------------------------------------------
@@ -72,3 +74,18 @@ https://github.com/iNeuronai/interview-question-data-science-
 
 --------------------------------- Material to read ----------------------------------------------------------------
 https://github.com/iNeuronai/MachineLearningModelToPivotal/tree/master/MLForCloudDeployment_Pivotal
+
+
+Reserach Papers:
+
+arxiv.org
+
+ResNet 50 Sample Code
+
+https://colab.research.google.com/drive/144tV6o_Fmg_c150BfNqPnbavc0tLLD54#scrollTo=7qrYXaD28P7y
+
+-- Outlier link
+https://www.pluralsight.com/guides/cleaning-up-data-from-outliers
+
+-- LSTM RNN (Must Read)
+https://colah.github.io/posts/2015-08-Understanding-LSTMs/

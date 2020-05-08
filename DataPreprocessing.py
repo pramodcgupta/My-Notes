@@ -12,12 +12,21 @@ df = df.drop(["ID"],axis=1)
 #changing the name of  pay_0 column to pay_1 to make the numbering correct
 df.rename(columns={'PAY_0':'PAY_1'}, inplace=True)
 
+# ---------------- Removing Unwanted categorical levels -------------------
+df['EDUCATION'].value_counts()
+
+df["EDUCATION"]=df["EDUCATION"].map({0:4,1:1,2:2,3:3,4:4,5:4,6:4})
+df["MARRIAGE"]=df["MARRIAGE"].map({0:3,1:1,2:2,3:3})
+
+
+
 
 # Code to convert into pandas dataframe
 df_sf = pd.DataFrame(scaled_features,columns=df.columns[:-1])
 df_sf.head(5)
 
-
+# ---------------- Drop Duplicate Records -----------------------------------------------------
+df=df.drop_duplicates(keep='first')
 
 # ----------------------------------------------- Data Frame Handling of Data ----------------------------------------------- 
 

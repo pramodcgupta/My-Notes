@@ -149,6 +149,18 @@ model.fit(X, y)
 
 y_pred = regressor.predict(X_test) 
 
+from sklearn.ensemble import RandomForestClassifier
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=101)
+model_rf = RandomForestClassifier(n_estimators=1000 , oob_score = True, n_jobs = -1,
+                                  random_state =50, max_features = "auto",
+                                  max_leaf_nodes = 30)
+model_rf.fit(X_train, y_train)
+
+# Make predictions
+prediction_test = model_rf.predict(X_test)
+print (metrics.accuracy_score(y_test, prediction_test))
+
+
 # ------------------------------ Hyperparameter Tuning ----------------------------------------------------------
 #Randomized Search CV
 from sklearn.model_selection import RandomizedSearchCV

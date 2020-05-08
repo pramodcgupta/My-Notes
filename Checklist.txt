@@ -1,0 +1,113 @@
+--==============================================
+-- Learning ML Algorithm Checklist/Steps
+--==============================================
+
+1. Learn underlying maths
+2. Implement Algorithm using python.
+3. Learn it for Classification, Regression and Text data wise.
+	3.1. Try Multiclass classification in case you are trying for classification problem.
+4. Learn underfitting and overfiiting using hyperparameter tuning. (Explore some parameters which is used to solve overfiiting problem.)
+5. Impact of Imbalanced Dataset. (Explore some parameters which is used to handle imbalanced dataset)
+6. Impact of Outlier. (Check wether outlier can impact algorithm performance)
+7. Need of feature scaling/Normalization. (Few algorithm doesn't require feature scaling)
+8. Understanding time complexity of algorithm. 
+
+
+==========================================
+Top 20 ML Algorithms:
+==========================================
+This will give broad list of algorithms-
+https://machinelearningmastery.com/a-tour-of-machine-learning-algorithms/
+
+ebook:
+https://www.academia.edu/37052546/Machine_learning_book
+
+Total 52 Algorithms
+
+1. Regression Algorithms
+	1.1. Ordinary Least Squares Regression (OLSR)
+	1.2. Linear Regression
+	1.3. Logistic Regression
+	1.4. Stepwise Regression
+	1.5. Multivariate Adaptive Regression Splines (MARS)
+	1.6. Locally Estimated Scatterplot Smoothing (LOESS)
+
+2. Instance-based Algorithms:
+	2.1. k-Nearest Neighbor (kNN)
+	2.2. Learning Vector Quantization (LVQ)
+	2.3. Self-Organizing Map (SOM)
+	2.4. Locally Weighted Learning (LWL)
+	2.5. Support Vector Machines (SVM)
+
+
+3. Regularization Algorithms
+	3.1. Ridge Regression
+	3.2. Least Absolute Shrinkage and Selection Operator (LASSO)
+	3.3. Elastic Net
+	3.4. Least-Angle Regression (LARS)
+
+4. Decision Tree Algorithms
+	4.1. Classification and Regression Tree (CART)
+	4.2. Iterative Dichotomiser 3 (ID3)
+	4.3. C4.5 and C5.0 (different versions of a powerful approach)
+	4.4. Chi-squared Automatic Interaction Detection (CHAID)
+	4.5. Decision Stump
+	4.6. M5
+	4.7. Conditional Decision Trees
+
+5. Bayesian Algorithms
+	5.1. Naive Bayes
+	5.2. Gaussian Naive Bayes
+	5.3. Multinomial Naive Bayes
+	5.4. Averaged One-Dependence Estimators (AODE)
+	5.5. Bayesian Belief Network (BBN)
+	5.6. Bayesian Network (BN)
+
+6. Clustering Algorithms
+	6.1. k-Means
+	6.2. k-Medians
+	6.3. Expectation Maximisation (EM)
+	6.4. Hierarchical Clustering
+
+7. Association Rule Learning Algorithms
+	7.1. Apriori algorithm
+	7.2. Eclat algorithm
+
+8. Dimensionality Reduction Algorithms
+	8.1. Principal Component Analysis (PCA)
+	8.2. Principal Component Regression (PCR)
+	8.3. Partial Least Squares Regression (PLSR)
+	8.4. Sammon Mapping
+	8.5. Multidimensional Scaling (MDS)
+	8.6. Projection Pursuit
+	8.7. Linear Discriminant Analysis (LDA)
+	8.8. Mixture Discriminant Analysis (MDA)
+	8.9. Quadratic Discriminant Analysis (QDA)
+	8.10. Flexible Discriminant Analysis (FDA)
+
+9. Ensemble Algorithms
+	9.1. Boosting
+	9.2. Bootstrapped Aggregation (Bagging)
+	9.3. AdaBoost
+	9.4. Weighted Average (Blending)
+	9.5. Stacked Generalization (Stacking)
+	9.6. Gradient Boosting Machines (GBM)
+	9.7. Gradient Boosted Regression Trees (GBRT)
+	9.8. Random Forest
+
+
+==========================================
+Deep Learning Models
+==========================================
+1. ANN
+
+2. CNN
+	2.1. LeNet
+	2.2. AlexNet
+	2.3. VGG-16
+	2.4. ResNet-50
+	
+	
+3. RNN
+	3.1. LSTM RNN
+	3.2. Bi-directional LSTM RNN

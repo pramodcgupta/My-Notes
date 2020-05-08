@@ -109,5 +109,29 @@ cv = TfidfVectorizer()
 X=cv.fit_transform(corpus).toarray()   
 
 
+# ------------------------------------------------ Text Similarity Metrics in Python ---------------------------------------------
 
+https://towardsdatascience.com/overview-of-text-similarity-metrics-3397c4601f50
 
+# 1. Jaccard Similarity 
+#2. Cosine Similarity
+
+from collections import Counter
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+def get_cosine_sim(*strs): 
+    vectors = [t for t in get_vectors(*strs)]
+    return cosine_similarity(vectors)
+    
+def get_vectors(*strs):
+    text = [t for t in strs]
+    vectorizer = CountVectorizer(text)
+    vectorizer.fit(text)
+    return vectorizer.transform(text).toarray()
+    
+    
+#  Differences between Jaccard Similarity and Cosine Similarity:
+
+# Jaccard similarity takes only unique set of words for each sentence / document while cosine similarity takes total length of the vectors. (these vectors could be made from bag of words term frequency or tf-idf)
+# This means that if you repeat the word “friend” in Sentence 1 several times, cosine similarity changes but Jaccard similarity does not. For ex, if the word “friend” is repeated in the first sentence 50 times, cosine similarity drops to 0.4 but Jaccard similarity remains at 0.5.
+# Jaccard similarity is good for cases where duplication does not matter, cosine similarity is good for cases where duplication matters while analyzing text similarity. For two product descriptions, it will be better to use Jaccard similarity as repetition of a word does not reduce their similarity.

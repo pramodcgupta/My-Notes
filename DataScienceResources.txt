@@ -20,7 +20,20 @@ https://www.youtube.com/user/joshstarmer
 Andrew NG
 https://www.youtube.com/channel/UCcIXc5mJsHVYTZR1maL5l9w
 
+Good Playlist for exploring ML/DL/NLP/Text Mining-
+https://www.youtube.com/channel/UC5zx8Owijmv-bbhAK6Z9apg/playlists
 
+Statistics
+https://www.youtube.com/watch?v=HJkwIBGi6Q8&list=PL3hCS1cUbaYOXNY4VjhYx7q3o7c0t3FKb&index=33
+
+Feature Selection: Laxmi Kant Tiwari
+https://www.youtube.com/watch?v=kA4mD3y4aqA&list=PLc2rvfiptPSQYzmDIFuq2PqN2n28ZjxDH&index=4
+
+
+NLP: Laxmi Kant Tiwari
+https://www.youtube.com/watch?v=mrF9MD56-wk&list=PLc2rvfiptPSQgsORc7iuv7UxhbRJox-pW&index=4
+
+ 
 ------------------------------------- Online Reading Website/Books Section -----------------------------------------------------------
 
 R for DataScience:
@@ -34,6 +47,13 @@ PDF Copies:
 
 Python Data Science Handbook:
 https://tanthiamhuat.files.wordpress.com/2018/04/pythondatasciencehandbook.pdf
+
+GPU
+
+https://aws.amazon.com/ec2/pricing/on-demand/
+papaerspace.com
+www.paperspace.com
+
 
 Think Stats:
 http://greenteapress.com/thinkstats2/thinkstats2.pdf
@@ -89,3 +109,28 @@ https://www.pluralsight.com/guides/cleaning-up-data-from-outliers
 
 -- LSTM RNN (Must Read)
 https://colah.github.io/posts/2015-08-Understanding-LSTMs/
+
+
+-- Top 20 data science Resources
+
+1. Tech with Tim
+2. Sentdex
+3. Corey Schofer
+4. python programmer
+5. Keith Galli
+6. David Langer
+7. Andreas Kretz
+8. FreeCodeCamp
+9. Springboard
+10. Data Science Dojo
+11. 3Blue 1 Brown
+12. StatQuest with osh Starmer
+13. CS Dojo
+14. 365 Data Science
+15. Edureka
+16. Data School
+17. Data Camp
+18. Siraj Raval
+19. Great Learning
+20. Krish naik
+

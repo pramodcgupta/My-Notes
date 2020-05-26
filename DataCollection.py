@@ -23,6 +23,9 @@ df.head(5)
 # To combine dataset
 df_comb=df.append(df_test, sort=False)
 
+# Merge dataframe based on columns
+df = pd.merge(df,df1,how = "left",on=['issue_dt'],sort=True)
+
 
 # ----------------- Data Overview --------------------------------
 print ("Rows     : " ,df.shape[0])

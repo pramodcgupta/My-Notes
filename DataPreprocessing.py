@@ -18,7 +18,9 @@ df['EDUCATION'].value_counts()
 df["EDUCATION"]=df["EDUCATION"].map({0:4,1:1,2:2,3:3,4:4,5:4,6:4})
 df["MARRIAGE"]=df["MARRIAGE"].map({0:3,1:1,2:2,3:3})
 
-
+# Replace 'n/a' with np.nan
+data.replace('n/a', np.nan,inplace=True)
+data['emp_length'].replace(to_replace='[^0-9]+', value='', inplace=True, regex=True)
 
 
 # Code to convert into pandas dataframe

@@ -3,13 +3,26 @@
 
 # --------------------------------- 1. Univariate Analysis --------------------------------------------
 
-# --- 3.1 Countplot 
+# --- 3.1 Categorical variable
+
+# 1: Bar Plot
+df['home_ownership'].value_counts().plot.bar()
+plt.title('Home Ownership')
+plt.xlabel('Home Ownership')
+plt.ylabel('Counts')
+
+# 2: CountPlot
 import seaborn as sns
 sns.countplot(x = 'gdp', data = df)
 
-# --- 3.2 Histogram  
 
-plt.hist(df['gdp'], bins=10)
+# ---- 3.2 Numerical variable
+#  Histogram
+plt.hist(df['loan_amnt'], bins=30)
+plt.title('Loan Amount')
+plt.xlabel('Loan Amount')
+plt.ylabel('Counts')
+
 
 # --- 3.3 KDE plot for single column
     # For Single column
@@ -129,9 +142,12 @@ def PairPlot(df, target):
 # Calling PairPlot
 PairPlot(df, 'species')
 
+# ---------------------------------- Plotting with 3 Features --------------------------------------------
+# Ploting 3 Features graph having issue_dt on X-axis w.r.t grade and sum of loan_amnt on Y-axis 
 
-
-
+fig = df.groupby(['issue_dt', 'grade'])['loan_amnt'].sum().unstack().plot(figsize=(14, 8), linewidth=2)
+fig.set_title('Disbursed amount in time')
+fig.set_ylabel('Disbursed Amount (US Dollars)')
 
 
 

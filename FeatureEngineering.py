@@ -6,16 +6,13 @@
 # URL for reference for feature Engineering:
 # https://github.com/krishnaik06/Feature-Engineering
 
-# URL For Handling Missing Data
-# https://github.com/abhinokha/MLPy/blob/master/HandlingImbalancedData/Notebook.ipynb
-
 # ---------------------------------
 # Feature Engineering checklist:
 # ---------------------------------
 #
 # Section 1. Divide test data into Dependent and Indepedent Features
 # Section 2. Spliting Dataset Into Train / Test
-# Section 3. Check for null values
+# Section 3. Identifying Missing values
 # Section 4. Handle Null/Missing values 
 # Section 5. Handle Imbalanced Dataset
 # Section 6. Handle Categorical Variable
@@ -28,6 +25,18 @@
 """
 #  --------------------------------------------  Section 1. Divide test data into Dependent and Indepedent Features  -----------------------  
 """
+
+
+def __separate_features_and_target_variable(self, target_variable_name):
+    try:    
+        self.__features             = self.__original_data.drop(target_variable_name, axis=1)
+        self.__target_variable      = self.__original_data.loc[:, target_variable_name]
+        self.__target_variable_name = target_variable_name
+    except KeyError:
+        #We raise an exception if the name of the target variable given by the user is not found.
+        raise TargetVariableNameError("Target variable '{}' does not exist!".format(target_variable_name))
+        
+
 
 # Method 1:
 X=df.drop(['default.payment.next.month'],axis=1)
@@ -70,7 +79,7 @@ print(score.mean())
 
 
  
-# ---------------------- ----------------------  Section 3. Identify Missing Values ---------------------------------------------------------------
+# --------------------------------------------  Section 3. Identify Missing Values ---------------------------------------------------------------
   
  print(df.isnull().values.any())
   
@@ -96,7 +105,7 @@ housing["total_bedrooms"].fillna(median,inplace=True)
 
 # Use below to perform option 3...
 
-# ------------------------ SimpleImputer -------------------------------
+# ------------------------ Simple Imputer -------------------------------
 from sklearn.impute import SimpleImputer
 
 imputer=SimpleImputer(strategy='median')
@@ -115,14 +124,35 @@ housing_tr = pd.DataFrame(X, columns=housing_num.columns
 
 # ------------------------ KNN-Imputer -------------------------------
 
-# Check KNNImputer Code from google <>
+from sklearn.impute import KNNImputer
 
+imputer = KNNImputer(n_neighbors=2)
+df_filled = imputer.fit_transform(df)
+
+# ------------------------ IterativeImputer -------------------------------
+from sklearn.impute import IterativeImputer
+
+# ------------------------ autoimpute -------------------------------
+# !pip install autoimpute
+
+from autoimpute.imputations import MultipleImputer
+imp = MultipleImputer()
+imp.fit_transform(data)
+
+# Using random Forest
+https://medium.com/analytics-vidhya/replacing-missing-values-in-a-dataset-by-building-a-random-forest-with-python-d82d4ff24223
+
+https://medium.com/jungle-book/missing-data-filling-with-unsupervised-learning-b448964030d
+
+
+https://stackoverflow.com/questions/35611465/python-scikit-learn-clustering-with-missing-data
 
 
 # ----------------------------------------------- Section 5. Handling Imbalanced Dataset ----------------------------------------------- 
 
+# URL For Handling Imbalanced Data
 
-
+# https://github.com/abhinokha/MLPy/blob/master/HandlingImbalancedData/Notebook.ipynb
 
 
 # ----------------------------------------------- Section 6. Handling Categorical Features ----------------------------------------------- 

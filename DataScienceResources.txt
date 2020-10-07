@@ -33,6 +33,16 @@ https://www.youtube.com/watch?v=kA4mD3y4aqA&list=PLc2rvfiptPSQYzmDIFuq2PqN2n28Zj
 NLP: Laxmi Kant Tiwari
 https://www.youtube.com/watch?v=mrF9MD56-wk&list=PLc2rvfiptPSQgsORc7iuv7UxhbRJox-pW&index=4
 
+
+------------------------------------------------------ Github links ---------------------------------------------------------------
+ 
+https://github.com/krishnaik06/Feature-Engineering
+https://github.com/krishnaik06/Handle-Imbalanced-Dataset
+https://github.com/krishnaik06/Feature-Selection
+https://github.com/tirthajyoti/Stats-Maths-with-Python
+https://github.com/leonvanbokhorst/NoteBooks-Statistics-and-MachineLearning (looks promising-holding all statics test)
+https://github.com/Volodymyrk/stats-testing-in-python (A/B testing link)
+
  
 ------------------------------------- Online Reading Website/Books Section -----------------------------------------------------------
 
@@ -89,7 +99,14 @@ https://drive.google.com/file/d/1Vit1tkEs82zLjVhfZN6EI6Sm9OWG-HEb/view?usp=shari
 
 --------------------------------- Interview Questions ----------------------------------------------------------------
 
-https://github.com/iNeuronai/interview-question-data-science-
+https://github.com/iNeuronai/interview-question-data-science-    
+
+Note: Must Read part : Day 1-Day 13 and Day 30   -- before interview
+Detailed question: Day 14 - Day 29
+
+
+Abhisehk Vijayvirgia provided below link:
+https://ailearnerhub.com/2020/07/04/data-scientist-interview-experience/
 
 
 --------------------------------- Material to read ----------------------------------------------------------------
@@ -134,3 +151,60 @@ https://colah.github.io/posts/2015-08-Understanding-LSTMs/
 19. Great Learning
 20. Krish naik
 
+Complete ML and DL links:
+https://www.youtube.com/watch?v=sld-QpwAHB0
+
+
+---------------------------------------- Statics reading -------------------------------------------------------
+
+Book - Business Statistics: For Contemporary Decision Making by Ken Black
+statisticsfun YouTube channel - https://www.youtube.com/user/statisticsfun
+Seeing Theory Website - https://seeing-theory.brown.edu/
+3Blue1Brown YouTube channel - https://www.youtube.com/channel/UCYO_jab_esuFRV4b17AJtAw
+Linear Algebra GitHub Pages :
+Link 1 - https://pabloinsente.github.io/intro-linear-algebra
+Link 2 - https://hadrienj.github.io/posts/Deep-Learning-Book-Series-Introduction/
+
+Chi- square with researchpy:
+https://www.pythonfordatascience.org/chi-square-test-of-independence-python/
+
+
+AI Interpretablity
+https://towardsdatascience.com/guide-to-interpretable-machine-learning-d40e8a64b6cf
+
+ https://www.globaltechcouncil.org/data-science/top-10-data-science-use-cases-in-telecom/
+ 
+ 
+ 
+inueron:
+
+Image Captioning Project:
+dataset
+https://forms.illinois.edu/sec/1713398
+ 
+
+ 
+ 
+====  hyper parameter
+Keras tuner for hyper parameter tuning for Tensorflow 2.0   -- take lot of time  --- use when u build something from scratch.
+Monk_V1   -- use for transfer learning -- good to explore  -- this is mostly used.
+
+mlflow - used for Machine learing.. good framework to explore.. version 1.2
+
+To keep upto date -
+
+google scholar
+facebook research
+
+github trending
+
+https://paperswithcode.com/
+
+subscribe for Microsoft, google and facebook
+
+
+jiwitesh@in.ineuron.ai
+
+
+good for ds articles
+https://distill.pub/

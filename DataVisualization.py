@@ -1,5 +1,8 @@
 
 # ----------------------------------------------- Data Visualization  -----------------------------------------------
+https://github.com/krishnaik06/Advanced-House-Price-Prediction-/blob/master/Exploratory%20Data%20Analysis%20Part%201.ipynb
+
+
 
 # --------------------------------- 1. Univariate Analysis --------------------------------------------
 
@@ -13,7 +16,24 @@ plt.ylabel('Counts')
 
 # 2: CountPlot
 import seaborn as sns
-sns.countplot(x = 'gdp', data = df)
+sns.countplot(x = 'gdp', data = df, palette='hls')
+
+
+# Plotting Categorical faeture w.r.t. target variable.
+# here df.cost = Feature df.churned = target
+# Bar Chart: 
+pd.crosstab(df.cost,df.churned).plot(kind='bar')
+plt.title('Churned Frequency for Cost')
+plt.xlabel('Cost')
+plt.ylabel('Frequency of Churned')
+
+# Stacked Bar Chart: Give normalized stacked bar plot for categorical feature based on target variable.
+table=pd.crosstab(data.marital,data.y)
+table.div(table.sum(1).astype(float), axis=0).plot(kind='bar', stacked=True)
+plt.title('Stacked Bar Chart of Marital Status vs Purchase')
+plt.xlabel('Marital Status')
+plt.ylabel('Proportion of Customers')
+
 
 
 # ---- 3.2 Numerical variable
@@ -23,13 +43,15 @@ plt.title('Loan Amount')
 plt.xlabel('Loan Amount')
 plt.ylabel('Counts')
 
+# Bar plot for Numerical continuos variable.
+sns.barplot('Age','Purchase',hue='Gender',data=df_i)
 
 # --- 3.3 KDE plot for single column
-    # For Single column
-    sns.kdeplot(df['gdp'], shade=True, color='blue')
+# For Single column
+sns.kdeplot(df['gdp'], shade=True, color='blue')
 
-    # For All Columns
-    df.plot(kind='density', subplots=True, layout=(3,3), sharex=False, figsize=(20, 20))
+# For All Columns
+df.plot(kind='density', subplots=True, layout=(3,3), sharex=False, figsize=(20, 20))
 
 # --- 3.4 displot : Histogram + Kde plot 
 sns.distplot(df['gdp.cap'])
@@ -145,12 +167,19 @@ PairPlot(df, 'species')
 # ---------------------------------- Plotting with 3 Features --------------------------------------------
 # Ploting 3 Features graph having issue_dt on X-axis w.r.t grade and sum of loan_amnt on Y-axis 
 
+# Approach 1:
 fig = df.groupby(['issue_dt', 'grade'])['loan_amnt'].sum().unstack().plot(figsize=(14, 8), linewidth=2)
 fig.set_title('Disbursed amount in time')
 fig.set_ylabel('Disbursed Amount (US Dollars)')
 
+# Approach 2:
+fig = df.groupby(['hour', 'workingday'])['count'].agg(sum).unstack().plot(kind='bar',figsize=(15,5))
+fig.set_title('Disbursed amount in time')
+fig.set_ylabel('Disbursed Amount (US Dollars)')
 
-
+# this will give list based on grade percentage by bad_loan (0 or 1)
+dict_risk = data.groupby(['grade'])['bad_loan'].mean().sort_values().to_dict()
+dict_risk
 
 # ----------------------------- Visualize for SVM classification problem ----------------------------------------------------------
 
@@ -208,3 +237,22 @@ sns.distplot(y_test-prediction)
 plt.scatter(y_test,prediction)
 # should be scattred centred at diagonal.
 
+
+# let's plot the Q-Q plot for the variable Age in order to check Normality check 
+temp = data.dropna(subset=['Age'])
+stats.probplot(temp.Age, dist="norm", plot=pylab)
+pylab.show()
+
+
+#-----------------------------  Visualising WordCloud  -----------------------------
+from wordcloud import WordCloud 
+# Plotiing the wordcloud for the Industry_desc column
+plt.subplots(figsize=(25,15))
+wordcloud = WordCloud(
+                          background_color='white',
+                          width=1920,
+                          height=1080
+                         ).generate(" ".join(df_reg.Industry_desc))
+plt.imshow(wordcloud)
+plt.axis('off')
+plt.show()

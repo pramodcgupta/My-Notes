@@ -334,8 +334,15 @@ plt.ylabel('Error Rate')
 
 #------------------------------------
 
+# ------------------------------------------------- AdaBoostClassifier -------------------------------------------------
 
-
+from sklearn.ensemble import AdaBoostClassifier
+ada_classifier=AdaBoostClassifier()
+ada_classifier.fit(X_train, y_train)
+ytrain_pred = ada_classifier.predict_proba(X_train)
+print('Adaboost train roc-auc: {}'.format(roc_auc_score(y_train, ytrain_pred[:,1])))
+ytest_pred = ada_classifier.predict_proba(X_test)
+print('Adaboost test roc-auc: {}'.format(roc_auc_score(y_test, ytest_pred[:,1])))
 
 
 # -------------------------------------------------------------------------------------------------------------------------------------
@@ -387,3 +394,176 @@ tpot.fitted_pipeline_
 # Export the pipeline
 tpot.export('tpot_iris_pipeline.py')
 
+
+
+
+#--------------------- Hyperparameter Tunning ---------------------------------------------
+
+# pip install optuna
+
+### Step 0: Get X_train, X_test, y_train and y_test
+
+# Step 1
+import optuna
+import sklearn.svm
+def objective(trial):
+
+    classifier = trial.suggest_categorical('classifier', ['RandomForest'])
+    
+    if classifier == 'RandomForest':
+        n_estimators = trial.suggest_int('n_estimators', 200, 2000,10)
+        max_depth = int(trial.suggest_float('max_depth', 5, 100, log=True))
+        min_samples_split = trial.suggest_int('min_samples_split', 2, 20,10)
+        min_samples_leaf = trial.suggest_int('min_samples_split', 1, 10,10)
+        max_features=trial.suggest_categorical('max_features', ['auto', 'sqrt','log2'])
+
+        clf = sklearn.ensemble.RandomForestClassifier(
+            n_estimators=n_estimators, max_depth=max_depth,min_samples_split=min_samples_split,min_samples_leaf=min_samples_leaf,max_features=max_features)
+    else:
+        c = trial.suggest_float('svc_c', 1e-10, 1e10, log=True)
+        
+        clf = sklearn.svm.SVC(C=c, gamma='auto')
+
+    return sklearn.model_selection.cross_val_score(
+        clf,X_train,y_train, n_jobs=-1, cv=3).mean()
+        
+
+# Step 2
+study = optuna.create_study(direction='maximize')
+study.optimize(objective, n_trials=100)
+
+trial = study.best_trial
+
+print('Accuracy: {}'.format(trial.value))
+print("Best hyperparameters: {}".format(trial.params))        
+
+
+# Step 3:
+study.best_params
+
+Ouput:
+{'classifier': 'RandomForest',
+ 'n_estimators': 1390,
+ 'max_depth': 28.447634781475774,
+ 'min_samples_split': 12,
+ 'max_features': 'log2'}
+
+# Step 4: now take those parameter specified in step 3
+rf=RandomForestClassifier(n_estimators=1390,max_depth=28,min_samples_split=12, max_features='log2')
+rf.fit(X_train,y_train)
+
+# Step 5
+from sklearn.metrics import confusion_matrix,classification_report,accuracy_score
+y_pred=rf.predict(X_test)
+print(confusion_matrix(y_test,y_pred))
+print(accuracy_score(y_test,y_pred))
+print(classification_report(y_test,y_pred))
+
+
+
+
+################################################################## Spot-Check Classificationcation Algorithms ###################################
+
+# Compare Algorithms
+from pandas import read_csv
+from matplotlib import pyplot
+from sklearn.model_selection import KFold
+from sklearn.model_selection import cross_val_score
+from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+from sklearn.naive_bayes import GaussianNB
+from sklearn.svm import SVC
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier, ExtraTreesClassifier
+from xgboost import XGBClassifier
+from sklearn.ensemble import AdaBoostClassifier
+from lightgbm import LGBMClassifier
+
+# prepare models
+models = []
+models.append(('LR', LogisticRegression()))
+models.append(('LDA', LinearDiscriminantAnalysis()))
+models.append(('KNN', KNeighborsClassifier()))
+models.append(('DT', DecisionTreeClassifier()))
+models.append(('NB', GaussianNB()))
+models.append(('SVM', SVC()))
+models.append(('RF', RandomForestClassifier()))
+models.append(('XGB', XGBClassifier()))
+models.append(('Adaboost', AdaBoostClassifier()))
+models.append(('GBM', GradientBoostingClassifier()))
+models.append(('ETC', ExtraTreesClassifier()))
+models.append(('LGBM', LGBMClassifier()))
+
+# evaluate each model in turn
+results = []
+names = []
+scoring = 'accuracy'
+for name, model in models:
+    kfold = KFold(n_splits=10, random_state=7)
+    cv_results = cross_val_score(model, X_train, y_train, cv=kfold, scoring=scoring)
+    results.append(cv_results)
+    names.append(name)
+    msg = "%s: %f (%f)" % (name, cv_results.mean(), cv_results.std())
+    print(msg)
+    
+# boxplot algorithm comparison
+fig = pyplot.figure(figsize=(10,5))
+fig.suptitle('ML Algorithm Comparison')
+ax = fig.add_subplot(111)
+pyplot.boxplot(results)
+ax.set_xticklabels(names)
+ax.set_xlabel('ML Models')
+ax.set_ylabel('Accuracy')
+pyplot.show()
+
+
+
+################################################################## Spot-Check Regression Algorithms ###################################
+
+
+# Linear Regression
+from pandas import read_csv
+from sklearn.model_selection import KFold
+from sklearn.model_selection import cross_val_score
+from sklearn.linear_model import LinearRegression
+filename = 'housing.csv'
+names = ['CRIM', 'ZN', 'INDUS', 'CHAS', 'NOX', 'RM', 'AGE', 'DIS', 'RAD', 'TAX', 'PTRATIO',
+'B', 'LSTAT', 'MEDV']
+dataframe = read_csv(filename, delim_whitespace=True, names=names)
+array = dataframe.values
+X = array[:,0:13]
+Y = array[:,13]
+kfold = KFold(n_splits=10, random_state=7)
+model = LinearRegression()
+scoring = 'neg_mean_squared_error'
+results = cross_val_score(model, X, Y, cv=kfold, scoring=scoring)
+print(results.mean())
+
+
+# Ridge Regression
+from sklearn.linear_model import Ridge
+model = Ridge()
+
+# Lasso Regression
+from sklearn.linear_model import Lasso
+model = Lasso()
+
+# ElasticNet Regression
+from sklearn.linear_model import ElasticNet
+model = ElasticNet()
+
+
+# KNN Regression
+from sklearn.neighbors import KNeighborsRegressor
+model = KNeighborsRegressor()
+
+
+# Decision Tree Regression
+from sklearn.tree import DecisionTreeRegressor
+model = DecisionTreeRegressor()
+
+
+# SVM Regression
+from sklearn.svm import SVR
+model = SVR()

@@ -1,4 +1,12 @@
 
+Roadmap by codebasics
+https://github.com/codebasics/py/blob/master/TechTopics/DataScienceRoadMap2020/data_science_roadmap_2020.md
+
+
+https://julienbeaulieu.github.io/2019/09/25/comprehensive-project-based-data-science-curriculum/
+
+
+
 ------------------------------------- You Tube Video Section -----------------------------------------------------------
 
 Python Programming:
@@ -45,6 +53,8 @@ https://github.com/Volodymyrk/stats-testing-in-python (A/B testing link)
 
  
 ------------------------------------- Online Reading Website/Books Section -----------------------------------------------------------
+
+
 
 R for DataScience:
 https://r4ds.had.co.nz/index.html

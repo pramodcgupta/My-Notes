@@ -17,10 +17,11 @@
 #
 # Section 1. Divide test data into Dependent and Indepedent Features
 # Section 2. Spliting Dataset Into Train / Test
-# Section 3. Identifying Missing values
-# Section 4. Handle Null/Missing values 
+# Section 3. Handling Missing values
+# Section 4. Handling Outlier
 # Section 5. Handle Imbalanced Dataset
 # Section 6. Handle Categorical Variable
+# Section 6. Handle Outlier
 # Section 7. Feature Scaling
 # Section 8. Transform Original distribution to Gaussian Distribution
 # Section 9. Binning of continuous variable
@@ -165,6 +166,9 @@ data[data.emp_title.isnull()].groupby(['emp_length])['emp_length'].count().sort_
 
 #################################### Section 4. Handling Missing Values  #################################### 
 
+# Read below blog
+# https://blog.cardoai.com/handling-missing-data-with-python/
+
 
 # ------------- 6 Methods of Handling missing -------------------------
 #   0. Dropping missing data 
@@ -227,6 +231,35 @@ def plot_feature_Dist_after_missingHandling(df, old_feature, new_feature):
 plot_feature_Dist_after_missingHandling(df, 'Age', 'Age_median')
 
 
+
+##-------------------------- Working code ----------------------------------------------------------
+
+def impute_nan_median(df,variable):
+    median=df[variable].median()  
+    df[variable]=df[variable].fillna(median)
+    
+def impute_nan_mode(df,variable):
+    mode=df[variable].mode()[0]  
+    df[variable]=df[variable].fillna(mode)
+    
+    
+## Get all features having missing values
+features_with_na = [feature for feature in X.columns if X[feature].isnull().sum() >= 1]
+
+cat_features= ['Is_Agent_channel', 'category', 'is_managed_service',  'sic', 'low_bandwidth', 'SV_MPLS', 'location_age']
+num_features= ['mrr', 'no_of_locations_new', 'PaymentBilledRatio', 'MRC_STD', 'avg_days_open', 'TicketCategoryChurnProbablity']
+
+for feature in features_with_na:        
+    ## Handling Categorical Features
+    if feature in cat_features:
+        impute_nan_mode(df,feature)
+    ## Handling Numerical features
+    elif feature in num_features:
+        impute_nan_median(df,feature)
+    else:
+        pass
+
+
 #---------------------------------- 2.  Random Sample Imputation -------------------------------- 
 
 # https://github.com/noisyoscillator/Feature-Engineering/blob/master/05.3_Random_sample_imputation.ipynb
@@ -236,33 +269,37 @@ plot_feature_Dist_after_missingHandling(df, 'Age', 'Age_median')
 # Note: You can use random_state = int(df.Fare) to get different seed everytime.
 
 def impute_nan_RandomSample(df,variable):
-    #Initialize the new variable with original data
-    df[variable+"_random"]=df[variable]
     ##generate random sample with same size
     random_sample=df[variable].dropna().sample(df[variable].isnull().sum(),random_state=0)
     ## creating Same index in order to merge the dataset
     random_sample.index=df[df[variable].isnull()].index
     ## Replace Missing data with random data
-    df.loc[df[variable].isnull(),variable+'_random']=random_sample
+    df.loc[df[variable].isnull(),variable]=random_sample
     
-# Calling the function
-impute_nan_RandomSample(df,'Age')    
+
+## Get all features having missing values
+features_with_na = [feature for feature in X.columns if X[feature].isnull().sum() >= 1]
+
+cat_features= ['Is_Agent_channel', 'category', 'is_managed_service',  'sic', 'low_bandwidth', 'SV_MPLS', 'location_age']
+num_features= ['mrr', 'no_of_locations_new', 'PaymentBilledRatio', 'MRC_STD', 'avg_days_open', 'TicketCategoryChurnProbablity']
+
+for feature in features_with_na:        
+    impute_nan_RandomSample(df,feature)
 
 #---------------------------------- 3.  Capturing NAN values with a new feature -------------------------------- 
-# Applied when NA are not missing at random. 
+# Applied when NAN are not missing at random. 
 
 # Disadvantages
 # Expands the feature space
 
 # let's make a function to replace the NA with median or 0s
-def impute_na(df, variable, median):
-    df[variable+'_NA'] = np.where(df[variable].isnull(), 1, 0)
-    df[variable].fillna(median, inplace=True)
+def impute_nan_newfeature(df, variable):     
+    df[variable + "_NAN"] = np.where(df[variable].isnull(), 1, 0)
+    df[variable].fillna(df[variable].median(), inplace=True)
 
 
 # Calling the function
-median = X_train.LotFrontage.median()
-impute_na(X_train, 'LotFrontage', median)
+impute_nan_newfeature(df,'Age')
 
 
 
@@ -326,6 +363,15 @@ impute_na(X_train, 'Age')
 # Typical values chose by companies are -9999 or 9999, or similar.
 
 
+#---------------------------------- 6. Adding new category Unknown -------------------------------- 
+## This is mostly used technique for categorical variable.
+
+def impute_nan_unknown(df, variable): 
+    df[variable] = df[variable].fillna('Unknown')
+
+# Calling the function  
+impute_nan_unknown(df, 'Embarked') 
+
 
 # ------------------------ Simple Imputer -------------------------------
 from sklearn.impute import SimpleImputer
@@ -346,10 +392,15 @@ housing_tr = pd.DataFrame(X, columns=housing_num.columns
 
 # ------------------------ KNN-Imputer -------------------------------
 
+# https://www.analyticsvidhya.com/blog/2020/07/knnimputer-a-robust-way-to-impute-missing-values-using-scikit-learn/
+
+# Before applying KNN, encode all categorical data and also, do standarization.
+
 from sklearn.impute import KNNImputer
 
-imputer = KNNImputer(n_neighbors=2)
+imputer = KNNImputer(n_neighbors=5)
 df_filled = imputer.fit_transform(df)
+df=pd.DataFrame(df_filled, columns=df.columns)
 
 # ------------------------ IterativeImputer -------------------------------
 from sklearn.impute import IterativeImputer
@@ -368,8 +419,6 @@ https://medium.com/jungle-book/missing-data-filling-with-unsupervised-learning-b
 
 
 https://stackoverflow.com/questions/35611465/python-scikit-learn-clustering-with-missing-data
-
-
 
 
 
@@ -422,32 +471,135 @@ data_clean.loc[data_clean.Age >= 73, 'Age'] = 73
 data_clean.loc[data_clean.Fare > 100, 'Fare'] = 100
 
 
+
+### Check for Number of outliers in dataset
+
+q1 = df.quantile(0.25)
+q3 = df.quantile(0.75)
+IQR= q3-q1 
+((df< (q1-1.5*IQR)) | (df > (q3+1.5*IQR))).sum()
+
+
+### Handle Outlier
+columns = ['Restaurant', 'Cuisines', 'Average_Cost', 'Minimum_Order', 'Rating', 'Votes', 'Reviews']
+
+for i in columns:
+       
+  q75, q25 = np.percentile(df[i], [75,25])
+  iqr = q75-q25
+  minimum = q25-1.5*iqr
+  maximum = q75+1.5*iqr
+  df.loc[df[i] < minimum, i] = minimum
+  df.loc[df[i] > maximum, i]= maximum
+
+### Check for Data Skewness
+data.skew()
+
+cols = ['Restaurant', 'Cuisines', 'Average_Cost', 'Minimum_Order', 'Rating', 'Votes', 'Reviews', 'Area']
+
+for i in cols:
+  data[i] = np.log(data[i]+1)
+
+
 # ----------------------------------------------- Section 5. Handling Imbalanced Dataset ----------------------------------------------- 
 
 # URL For Handling Imbalanced Data
 
 # https://github.com/abhinokha/MLPy/blob/master/HandlingImbalancedData/Notebook.ipynb
 
-# Use SMOTE (Synthetic Minority OverSampling)
+# https://machinelearningmastery.com/smote-oversampling-for-imbalanced-classification/
+
+# 
+# 1. SMOTE (Synthetic Minority Oversampling Technique): SMOTE works by selecting examples that are close in the feature space, drawing a line 
+# between the examples in the feature space and drawing a new sample at a point along that line.
+# Specifically, a random example from the minority class is first chosen. Then k of the nearest neighbors for that example are found (typically k=5).
+# A randomly selected neighbor is chosen and a synthetic example is created at a randomly selected point between the two examples in feature space.
+
+# 2. Borderline-SMOTE: SMOTE involves selecting those instances of the minority class that are misclassified, such as with a kNN classification model.
+
+# 3. Borderline-SMOTE SVM : an SVM algorithm is used instead of a KNN to identify misclassified examples on the decision boundary. 
+# An SVM is used to locate the decision boundary defined by the support vectors and examples in the minority class that close 
+# to the support vectors become the focus for generating synthetic examples
+
+# 4. Adaptive Synthetic Sampling (ADASYN) : That is, generate more synthetic examples in regions of the feature space where the density of minority 
+# examples is low, and fewer or none where the density is high.
+
+## --------------------------- SMOTETomek ------------------------------------------------------------
+from imblearn.combine import SMOTETomek
+# Implementing Oversampling for Handling Imbalanced 
+smk = SMOTETomek(random_state=42)
+X_res,y_res=smk.fit_sample(X,Y)
+
+from collections import Counter
+print('Original dataset shape {}'.format(Counter(Y)))
+print('Resampled dataset shape {}'.format(Counter(y_res)))
+
+
+# ------------------------  SMOTE (Synthetic Minority OverSampling) -------------------------------------
 from imblearn.over_sampling import SMOTE
+os = SMOTE(random_state=0)
+os_data_X,os_data_y=os.fit_sample(X_train, y_train)
 
-def SMOTE_Upsampling(X_train, y_train, target):     
-    
-    os = SMOTE(random_state=0)
+from collections import Counter
+print('Original dataset shape {}'.format(Counter(Y)))
+print('Resampled dataset shape {}'.format(Counter(os_data_y)))
 
-    os_data_X,os_data_y=os.fit_sample(X_train, y_train)
+## --------------------------- RandomOverSampler ------------------------------------------------------------
+from imblearn.over_sampling import RandomOverSampler
+os =  RandomOverSampler(ratio=0.5)
+X_train_res, y_train_res = os.fit_sample(X, Y)
 
-    # we can Check the numbers of our data
-    print("length of oversampled data is ",len(os_data_X))
-    print("Number of no class in oversampled data",len(os_data_y[os_data_y[target]==0]))
-    print("Number of classes",len(os_data_y[os_data_y[target]==1]))
-    print("Proportion of no class data in oversampled data is ",len(os_data_y[os_data_y[target]==0])/len(os_data_X))
-    print("Proportion of class data in oversampled data is ",len(os_data_y[os_data_y[target]==1])/len(os_data_X))
-    
-    return os_data_X, os_data_y
+from collections import Counter
+print('Original dataset shape {}'.format(Counter(Y)))
+print('Resampled dataset shape {}'.format(Counter(y_train_res)))
 
-# Call the SMOTE_Upsampling
-X_train, y_train = SMOTE_Upsampling(X_train, y_train, 'IsCustomer_60Days_PastDue')
+
+## --------------------------- BorderlineSMOTE ------------------------------------------------------------
+from imblearn.over_sampling import BorderlineSMOTE
+oversample = BorderlineSMOTE()
+X_res,y_res = oversample.fit_resample(X, y)
+
+from collections import Counter
+print('Original dataset shape {}'.format(Counter(Y)))
+print('Resampled dataset shape {}'.format(Counter(y_train_res)))
+
+## --------------------------- SVMSMOTE ------------------------------------------------------------
+from imblearn.over_sampling import SVMSMOTE
+oversample = SVMSMOTE()
+X_res,y_res  = oversample.fit_resample(X, y)
+
+from collections import Counter
+print('Original dataset shape {}'.format(Counter(Y)))
+print('Resampled dataset shape {}'.format(Counter(y_train_res)))
+
+## -------------------------- ADASYN ------------------------------------------------------------------
+from imblearn.over_sampling import ADASYN
+adasyn=ADASYN("not majority",n_neighbors = 2)
+X,Y=adasyn.fit_sample(x_train,y_train)
+
+from collections import Counter
+print("Before:", Counter(y_train))
+print("After:", Counter(Y))
+
+
+#### ----------------------- UnderSampling using NearMiss ----------------------------------------------
+from imblearn.under_sampling import NearMiss
+nm = NearMiss(random_state=42)
+X_res,y_res=nm.fit_sample(X,Y)
+
+## To check the count
+from collections import Counter
+print('Original dataset shape {}'.format(Counter(Y)))
+print('Resampled dataset shape {}'.format(Counter(y_res)))
+
+#### ----------------------- UnderSampling using RandomUnderSampler ----------------------------------------------
+from imblearn.under_sampling import RandomUnderSampler
+under = RandomUnderSampler(sampling_strategy=0.5)
+X_res, y_res = under.fit_resample(X, y)
+
+from collections import Counter
+print('Original dataset shape {}'.format(Counter(Y)))
+print('Resampled dataset shape {}'.format(Counter(y_res)))
 
 
 """
@@ -730,8 +882,6 @@ df[cat_cols1]=df[cat_cols1].apply(le.fit_transform)
 
 # For Single Column
 df['agent_owned']= le.fit_transform(df[agent_owned]) 
-
-
 
 
 

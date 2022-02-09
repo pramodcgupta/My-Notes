@@ -17,7 +17,7 @@ pd.set_option('display.max_rows', None)
 import warnings
 warnings.filterwarnings("ignore")
 
-# --------------- Reading data into Pandas dataframe
+# --------------- Reading data into Pandas dataframe -------------------
 
 df=pd.read_csv('./Dataset/Credit_default_dataset.csv')
 df.head(5)
@@ -56,15 +56,17 @@ sns.countplot('y', data=data, palette='hls')
 
 # Get Class Percentage distribution
 def GetCountsOfClassess(df, target): 
-    count_no_sub = len(df[df[target]==0])
-    count_sub = len(df[df[target]==1])
+    count_no_sub = len(df[df[target]=='N'])
+    count_sub = len(df[df[target]=='Y'])
     pct_of_no_sub = count_no_sub/(count_no_sub+count_sub)
-    print("percentage of no subscription is", pct_of_no_sub*100)
+    print("# Total Active locations :", count_no_sub)
+    print("# Total Churn locations :", count_sub)
+    print("percentage of Active location is %.2f " % (pct_of_no_sub*100))
     pct_of_sub = count_sub/(count_no_sub+count_sub)
-    print("percentage of subscription", pct_of_sub*100)
+    print("percentage of Churn location %.2f " % (pct_of_sub*100))
 
-
-GetCountsOfClassess(df, 'y')
+## Call the function    
+GetCountsOfClassess(df, 'Churned')
 
 # ----------------- Normality Check ----------------------
 

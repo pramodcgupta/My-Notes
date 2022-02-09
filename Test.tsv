@@ -1,0 +1,72 @@
+churned_date	source_id	Accts	Tickts	Churn_ind
+NULL	1	22307	14743	0
+2019-Q1	1	811	77	1
+2019-Q2	1	914	161	1
+2019-Q3	1	919	320	1
+2019-Q4	1	809	426	1
+NULL	2	1819	10718	0
+2019-Q1	2	17	4	1
+2019-Q2	2	16	29	1
+2019-Q3	2	19	12	1
+2019-Q4	2	11	8	1
+
+
+LAN,NTF,F1,F2,Maxing Bandwidth
+
+
+No Data, No Service, Ongoing Issue, Up/Down, Bouncing
+
+Top 10 Categories under Tickets have been raised:
+
+Service Down 
+Firewalls
+Calling
+Customer Assist
+Feature
+Voice Quality
+Phone
+Impaired
+SD-WAN
+Slow Speed
+
+Missing values :
+ source_id                     0
+market_id                     0
+customer_type_id              0
+account_no                    0
+no_of_locations           31735
+statement_date                0
+churned_date              24596
+total_bandwidth_in_MB     31735
+customer_name                 0
+uci                           0
+mrc_total                     0
+mrc_adv                       0
+usage                         0
+nrc_total                     0
+total_value                   0
+sic                        4932
+category                      0
+is_active                     0
+no_of_locations_new         300
+id                            0
+service_category           2494
+seats                     28411
+is_managed_service            0
+risk_score_by_churn       13416
+risk_score_by_contract      392
+contract_end_date          8930
+first_mrc_date             2376
+first_order_channel        1254
+first_sales_rep           31735
+first_sm                  31735
+first_gm                  31735
+agent_owned                   0
+first_order_employee      31735
+ms_qualification          22913
+vip_code                  23259
+NRC_installments          28497
+Churn                         0
+
+df=df.drop(['source_id', 'account_no','statement_date','no_of_locations','total_bandwidth_in_MB','seats','risk_score_by_churn', 
+'first_sales_rep', 'first_sm', 'first_gm','first_order_employee', 'ms_qualification',  'NRC_installments','churned_date','customer_name','uci','id'], axis=1)

@@ -256,3 +256,17 @@ wordcloud = WordCloud(
 plt.imshow(wordcloud)
 plt.axis('off')
 plt.show()
+
+
+#-----------------------------  Top 10 Bar plot based on rank -----------------------------
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+weight_average=movie_sorted_ranking.sort_values('weighted_avg',ascending=False)
+plt.figure(figsize=(12,6))
+axis1=sns.barplot(x=weight_average['weighted_avg'].head(10), y=weight_average['original_title'].head(10), data=weight_average)
+plt.title('Best Movies by average votes', weight='bold')
+plt.xlabel('Weighted Average Score', weight='bold')
+plt.ylabel('Movie Title', weight='bold')
+

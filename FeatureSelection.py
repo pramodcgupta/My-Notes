@@ -12,7 +12,7 @@
 
 # ---------------------------------
 # Feature Selection checklist:
-# ---------------------------------
+# --------------------------------- 
 
 '''
 # -------------------------------------------------- Feature Selection  -----------------------------------------------------------------------
@@ -55,8 +55,8 @@ sns.heatmap(pd.DataFrame(cnf_matrix), annot=True, cmap="viridis" ,fmt='g')
 ax.xaxis.set_label_position("top")
 plt.tight_layout()
 plt.title('Confusion matrix', y=1.1)
-plt.ylabel('Actual label')
-plt.xlabel('Predicted label')
+plt.ylabel('Actuals')
+plt.xlabel('Predicted')
 
 
 #################################################### Feature Importance ####################################################

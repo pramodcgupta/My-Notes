@@ -1,3 +1,20 @@
+### ------------------------------------------- Mean, Median and Mode ----------------------------------------------------------------
+import statistics
+
+## Mean
+statistics.mean([4, 8, 6, 5, 3, 2, 8, 9, 2, 5])
+
+## Median
+statistics.median([3, 5, 1, 4, 2])
+
+## Mode 
+statistics.mode([4, 1, 2, 2, 3, 5])
+
+statistics.multimode([4, 1, 2, 2, 3, 5, 4])   ## Python 3.8 --- give list in case of having multiple mode
+
+
+
+
 # --------------------------------------------- Chi Squared Test ---------------------------------------------------------------------
 
 # Chi Squared Test: 
@@ -99,6 +116,14 @@ chi_square_test_with_researchpy(df['sex'],df['smoker'])
 
 # --------------------------------------------- T test ---------------------------------------------------------------------
 
+# https://www.reneshbedre.com/blog/ttest.html
+
+1. One sample ttest:  stats.ttest_1samp(a,b)
+
+2. TwoSample t test: stats.ttest_ind(a,b)
+
+3. Pairedttest: stats.ttest(a,b)
+
 ## Import the packages
 import numpy as np
 from scipy import stats
@@ -148,6 +173,7 @@ print("p = " + str(p2))
 
 # ------------------------------------------------------------------- One way Anova--------------------------------------------------------------------
 https://dzone.com/articles/correlation-between-categorical-and-continuous-var-1
+https://www.reneshbedre.com/blog/anova.html   --must read
 
 # Code Snippet:
 
@@ -260,3 +286,8 @@ def normality_test(data):
     pyplot.show()
     
 normality_test(df['NumberOfAMContacted'])    
+
+
+
+Levene’s test, F-test, and Bartlett’s test.
+

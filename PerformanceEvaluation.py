@@ -68,6 +68,17 @@ scoring = 'neg_mean_squared_error'
 ### 3. R2 score
 scoring = 'r2'
 
+### Errors in % terms
+# Calculate the absolute errors
+errors = abs(predictions - test_labels)
+
+# Calculate mean absolute percentage error (MAPE)
+mape = 100 * (errors / test_labels)
+# Calculate and display accuracy
+accuracy = 100 - np.mean(mape)
+print('Accuracy:', round(accuracy, 2), '%.')
+
+
 # -------------------------------------------------------
 # ----- Classification metrics
 # -------------------------------------------------------

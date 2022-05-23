@@ -114,7 +114,7 @@ X=cv.fit_transform(corpus).toarray()
 https://towardsdatascience.com/overview-of-text-similarity-metrics-3397c4601f50
 
 # 1. Jaccard Similarity 
-# 2. Cosine Similarity
+#2. Cosine Similarity
 
 from collections import Counter
 from sklearn.feature_extraction.text import CountVectorizer

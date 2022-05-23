@@ -1,12 +1,4 @@
 
-Roadmap by codebasics
-https://github.com/codebasics/py/blob/master/TechTopics/DataScienceRoadMap2020/data_science_roadmap_2020.md
-
-
-https://julienbeaulieu.github.io/2019/09/25/comprehensive-project-based-data-science-curriculum/
-
-
-
 ------------------------------------- You Tube Video Section -----------------------------------------------------------
 
 Python Programming:
@@ -28,33 +20,8 @@ https://www.youtube.com/user/joshstarmer
 Andrew NG
 https://www.youtube.com/channel/UCcIXc5mJsHVYTZR1maL5l9w
 
-Good Playlist for exploring ML/DL/NLP/Text Mining-
-https://www.youtube.com/channel/UC5zx8Owijmv-bbhAK6Z9apg/playlists
 
-Statistics
-https://www.youtube.com/watch?v=HJkwIBGi6Q8&list=PL3hCS1cUbaYOXNY4VjhYx7q3o7c0t3FKb&index=33
-
-Feature Selection: Laxmi Kant Tiwari
-https://www.youtube.com/watch?v=kA4mD3y4aqA&list=PLc2rvfiptPSQYzmDIFuq2PqN2n28ZjxDH&index=4
-
-
-NLP: Laxmi Kant Tiwari
-https://www.youtube.com/watch?v=mrF9MD56-wk&list=PLc2rvfiptPSQgsORc7iuv7UxhbRJox-pW&index=4
-
-
------------------------------------------------------- Github links ---------------------------------------------------------------
- 
-https://github.com/krishnaik06/Feature-Engineering
-https://github.com/krishnaik06/Handle-Imbalanced-Dataset
-https://github.com/krishnaik06/Feature-Selection
-https://github.com/tirthajyoti/Stats-Maths-with-Python
-https://github.com/leonvanbokhorst/NoteBooks-Statistics-and-MachineLearning (looks promising-holding all statics test)
-https://github.com/Volodymyrk/stats-testing-in-python (A/B testing link)
-
- 
 ------------------------------------- Online Reading Website/Books Section -----------------------------------------------------------
-
-
 
 R for DataScience:
 https://r4ds.had.co.nz/index.html
@@ -67,13 +34,6 @@ PDF Copies:
 
 Python Data Science Handbook:
 https://tanthiamhuat.files.wordpress.com/2018/04/pythondatasciencehandbook.pdf
-
-GPU
-
-https://aws.amazon.com/ec2/pricing/on-demand/
-papaerspace.com
-www.paperspace.com
-
 
 Think Stats:
 http://greenteapress.com/thinkstats2/thinkstats2.pdf
@@ -103,20 +63,11 @@ Group Lens dataset: https://grouplens.org/
 
 Awesome Public Dataset: https://github.com/awesomedata/awesome-public-datasets
 
-DataSet for Images:
-https://drive.google.com/file/d/1Vit1tkEs82zLjVhfZN6EI6Sm9OWG-HEb/view?usp=sharing
 
 
 --------------------------------- Interview Questions ----------------------------------------------------------------
 
-https://github.com/iNeuronai/interview-question-data-science-    
-
-Note: Must Read part : Day 1-Day 13 and Day 30   -- before interview
-Detailed question: Day 14 - Day 29
-
-
-Abhisehk Vijayvirgia provided below link:
-https://ailearnerhub.com/2020/07/04/data-scientist-interview-experience/
+https://github.com/iNeuronai/interview-question-data-science-
 
 
 --------------------------------- Material to read ----------------------------------------------------------------
@@ -126,95 +77,3 @@ https://github.com/iNeuronai/MachineLearningModelToPivotal/tree/master/MLForClou
 Reserach Papers:
 
 arxiv.org
-
-ResNet 50 Sample Code
-
-https://colab.research.google.com/drive/144tV6o_Fmg_c150BfNqPnbavc0tLLD54#scrollTo=7qrYXaD28P7y
-
--- Outlier link
-https://www.pluralsight.com/guides/cleaning-up-data-from-outliers
-
--- LSTM RNN (Must Read)
-https://colah.github.io/posts/2015-08-Understanding-LSTMs/
-
-
--- Top 20 data science Resources
-
-1. Tech with Tim
-2. Sentdex
-3. Corey Schofer
-4. python programmer
-5. Keith Galli
-6. David Langer
-7. Andreas Kretz
-8. FreeCodeCamp
-9. Springboard
-10. Data Science Dojo
-11. 3Blue 1 Brown
-12. StatQuest with osh Starmer
-13. CS Dojo
-14. 365 Data Science
-15. Edureka
-16. Data School
-17. Data Camp
-18. Siraj Raval
-19. Great Learning
-20. Krish naik
-
-Complete ML and DL links:
-https://www.youtube.com/watch?v=sld-QpwAHB0
-
-
----------------------------------------- Statics reading -------------------------------------------------------
-
-Book - Business Statistics: For Contemporary Decision Making by Ken Black
-statisticsfun YouTube channel - https://www.youtube.com/user/statisticsfun
-Seeing Theory Website - https://seeing-theory.brown.edu/
-3Blue1Brown YouTube channel - https://www.youtube.com/channel/UCYO_jab_esuFRV4b17AJtAw
-Linear Algebra GitHub Pages :
-Link 1 - https://pabloinsente.github.io/intro-linear-algebra
-Link 2 - https://hadrienj.github.io/posts/Deep-Learning-Book-Series-Introduction/
-
-Chi- square with researchpy:
-https://www.pythonfordatascience.org/chi-square-test-of-independence-python/
-
-
-AI Interpretablity
-https://towardsdatascience.com/guide-to-interpretable-machine-learning-d40e8a64b6cf
-
- https://www.globaltechcouncil.org/data-science/top-10-data-science-use-cases-in-telecom/
- 
- 
- 
-inueron:
-
-Image Captioning Project:
-dataset
-https://forms.illinois.edu/sec/1713398
- 
-
- 
- 
-====  hyper parameter
-Keras tuner for hyper parameter tuning for Tensorflow 2.0   -- take lot of time  --- use when u build something from scratch.
-Monk_V1   -- use for transfer learning -- good to explore  -- this is mostly used.
-
-mlflow - used for Machine learing.. good framework to explore.. version 1.2
-
-To keep upto date -
-
-google scholar
-facebook research
-
-github trending
-
-https://paperswithcode.com/
-
-subscribe for Microsoft, google and facebook
-
-
-jiwitesh@in.ineuron.ai
-
-
-good for ds articles
-https://distill.pub/

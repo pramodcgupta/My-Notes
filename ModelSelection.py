@@ -61,50 +61,7 @@ model.fit(X_poly,y)
 # Predict using Polynomial Linear Regression
 y_pred=model.predict(X_poly) 
 
-# ------------------------------------------------- Huber Regressor Regression -----------------------------------------------
-
-# https://machinelearningmastery.com/robust-regression-for-machine-learning-in-python/
-
-# Huber regression is a type of robust regression that is aware of the possibility of outliers in a dataset and assigns them less weight 
-# than other examples in the dataset.
-#
-# We can use Huber regression via the HuberRegressor class in scikit-learn. The “epsilon” argument controls what is considered an outlier, 
-# where smaller values consider more of the data outliers, and in turn, make the model more robust to outliers. The default is 1.35.
-
-from sklearn.linear_model import HuberRegressor
-model = HuberRegressor()
-model.fit(X_train,y_train)
-
-y_pred=model.predict(X_test)
-
-# ------------------------------------------------- RANSAC Regression -----------------------------------------------
-# Random Sample Consensus, or RANSAC for short, is another robust regression algorithm.
-# RANSAC tries to separate data into outliers and inliers and fits the model on the inliers.
-
-from sklearn.linear_model import RANSACRegressor
-model = RANSACRegressor()
-model.fit(X_train,y_train)
-
-y_pred=model.predict(X_test)
-
-# ------------------------------------------------- Theil Sen Regression -----------------------------------------------
-# Random Sample Consensus, or RANSAC for short, is another robust regression algorithm.
-# RANSAC tries to separate data into outliers and inliers and fits the model on the inliers.
-
-from sklearn.linear_model import TheilSenRegressor
-model = TheilSenRegressor()
-model.fit(X_train,y_train)
-
-y_pred=model.predict(X_test)
-
-
 # ------------------------------------------------- Support Vector Regression -----------------------------------------------
-
-# https://statinfer.com/204-6-8-svm-advantages-disadvantages-applications/
-# https://dhirajkumarblog.medium.com/top-4-advantages-and-disadvantages-of-support-vector-machine-or-svm-a3c06a2b107
-
-# The minimum time complexity for training an SVM is O(n2)
-
 from sklearn.svm import SVR
 
 # Fit regression model
@@ -124,9 +81,6 @@ svr_poly = SVR(kernel='poly', C=100, gamma='auto', degree=3, epsilon=.1, coef0=1
 svr_poly.fit(X_train,y_train)
 y_pred=svr_poly.predict(X_test)
 
-
-# C: Define allowed errors. High C will allow more errors
-# gamma: this allow more curvature to fit the model. High value will lead to more fit to train data and could cause overfitting.
 
 # ------------------------------------------------- Decision Tree Regressor -----------------------------------------------
 # Decision Tree Regressor  
@@ -283,9 +237,6 @@ model.fit(X_train, y_train)
 y_pred=model.predict(X_test)
 
 # ------------------------------------------------- Random Forest Classifier -------------------------------------------------
-
-# https://neptune.ai/blog/random-forest-regression-when-does-it-fail-and-why
-
 # Random Forest Classifier
 from sklearn.ensemble import RandomForestClassifier
 model=RandomForestClassifier()
@@ -294,14 +245,6 @@ model.fit(X_train, y_train)
 y_pred=model.predict(X_test)
 
 # ------------------------------------------------- XGBOOST -------------------------------------------------
-# https://www.mygreatlearning.com/blog/gradient-boosting/
-
-# XGBOOST vs gradient boosting
-
-# Both xgboost and gbm follows the principle of gradient boosting. There are however, the difference in modeling details. Specifically, xgboost used a more "regularized model" formalization to control over-fitting, which gives it better performance.
-
-# The name xgboost, though, actually refers to the engineering goal to push the limit of "computations resources" for boosted tree algorithms. Which is the reason why many people use xgboost. For model, it might be more suitable to be called as regularized gradient boosting.
-
 # XGBOOST Classifier
 from xgboost import XGBClassifier
 model = XGBClassifier()
@@ -357,51 +300,9 @@ classifier=xgboost.XGBClassifier(base_score=0.5, booster='gbtree', colsample_byl
        reg_lambda=1, scale_pos_weight=1, seed=None, silent=True,
        subsample=1)
 
-# ------------------------------------------------- LightGBM -------------------------------------------------
-
-# https://www.geeksforgeeks.org/lightgbm-light-gradient-boosting-machine/
-
-
-# LightGBM splits the tree leaf-wise as opposed to other boosting algorithms that grow tree level-wise. It chooses the leaf with maximum delta loss to grow. Since the leaf is fixed, the leaf-wise algorithm has lower loss compared to the level-wise algorithm. Leaf-wise tree growth might increase the complexity of the model and may lead to overfitting in small datasets.
-
-# LightGBM is a gradient boosting framework based on decision trees to increases the efficiency of the model and reduces memory usage. 
-# It uses two novel techniques:  Gradient-based One Side Sampling and Exclusive Feature Bundling (EFB) which fulfills the limitations of histogram-based algorithm that is primarily used in all GBDT (Gradient Boosting Decision Tree) frameworks. The two techniques of GOSS and EFB described below form the characteristics of LightGBM Algorithm. They comprise together to make the model work efficiently and provide it a cutting edge over other GBDT frameworks 
-
-# 1. Gradient-based One Side Sampling Technique for LightGBM: 
-# Different data instances have varied roles in the computation of information gain. The instances with larger gradients(i.e., under-trained instances) will contribute more to the information gain. GOSS keeps those instances with large gradients (e.g., larger than a predefined threshold, or among the top percentiles), and only randomly drop those instances with small gradients  to retain the accuracy of information gain estimation. This  treatment can lead to a more accurate gain estimation than uniformly random sampling, with the same target sampling rate, especially when the value of information gain has a large range. 
-
-# 2. Exclusive Feature Bundling Technique for LightGBM: 
-# High-dimensional data are usually very sparse which provides us a possibility of designing a nearly lossless approach to reduce the number of features. Specifically, in a sparse feature space, many features are mutually exclusive, i.e., they never take nonzero values simultaneously. The exclusive features can be safely bundled into a single feature (called an Exclusive Feature Bundle).  Hence, the complexity of histogram building changes from O(#data × #feature) to O(#data × #bundle), while #bundle<<#feature . Hence, the speed for training framework is improved without hurting accuracy. 
-
-
-# pip install lightgbm
-
-from lightgbm import LGBMClassifier
-
-model = LGBMClassifier()
-model.fit(x_train, y_train)
-y_pred = model.predict(x_test)
-
-#========================================
-# Hyperparameter Parameter Tuning: 
-#========================================
-# max_depth : It sets a limit on the depth of tree. The default value is 20. It is effective in controlling over fitting.
-# categorical_feature : It specifies the categorical feature used for training model.
-# bagging_fraction : It specifies the fraction of data to be considered for each iteration.
-# feature_fraction : It specifies the fraction of features to be considered in each iteration. The default value is one.
-# num_iterations : It specifies the number of iterations to be performed. The default value is 100.
-# num_leaves : It specifies the number of leaves in a tree. It should be smaller than the square of max_depth.
-# max_bin : It specifies the maximum number of bins to bucket the feature values.
-# min_data_in_bin : It specifies minimum amount of data in one bin.
-# task : It specifies the task we wish to perform which is either train or prediction. The default entry is train. Another possible value for this parameter is prediction.
-
 
 
 # ------------------------------------------------- K-Nearest Neighbor (KNN) -------------------------------------------------
-
-# https://www.fromthegenesis.com/pros-and-cons-of-k-nearest-neighbors/
-
-# https://discuss.analyticsvidhya.com/t/which-one-to-use-randomforest-vs-svm-vs-knn/2897/3
 
 from sklearn.neighbors import KNeighborsClassifier	   
 model = KNeighborsClassifier(n_neighbors=1)
@@ -433,29 +334,9 @@ plt.ylabel('Error Rate')
 
 #------------------------------------
 
-# ------------------------------------------------- AdaBoostClassifier -------------------------------------------------
-
-from sklearn.ensemble import AdaBoostClassifier
-ada_classifier=AdaBoostClassifier()
-ada_classifier.fit(X_train, y_train)
-ytrain_pred = ada_classifier.predict_proba(X_train)
-print('Adaboost train roc-auc: {}'.format(roc_auc_score(y_train, ytrain_pred[:,1])))
-ytest_pred = ada_classifier.predict_proba(X_test)
-print('Adaboost test roc-auc: {}'.format(roc_auc_score(y_test, ytest_pred[:,1])))
 
 
-# -------------------------------------------------  naive bayes -------------------------------------------------
 
-# https://www.i2tutorials.com/advantages-and-disadvantages-of-naive-bayes-classifier/
-
-# https://hub.packtpub.com/implementing-3-naive-bayes-classifiers-in-scikit-learn/#:~:text=Multinomial%20naive%20Bayes%20assumes%20to,very%20often%2C%20its%20frequency).&text=The%20Gaussian%20Naive%20Bayes%2C%20instead,for%20more%20generic%20classification%20tasks.
-
-
-# ZIP (Zero Infalted Poisson Regression Model)
-https://towardsdatascience.com/an-illustrated-guide-to-the-zero-inflated-poisson-model-b22833343057
-
-# Poissson Regression Model
-https://towardsdatascience.com/an-illustrated-guide-to-the-poisson-regression-model-50cccba15958
 
 # -------------------------------------------------------------------------------------------------------------------------------------
 # --------------------------------------------  Deep Learning -------------------------------------------------------------------------
@@ -506,278 +387,3 @@ tpot.fitted_pipeline_
 # Export the pipeline
 tpot.export('tpot_iris_pipeline.py')
 
-
-
-
-#--------------------- Hyperparameter Tunning ---------------------------------------------
-
-# pip install optuna
-
-### Step 0: Get X_train, X_test, y_train and y_test
-
-# Step 1
-import optuna
-import sklearn.svm
-def objective(trial):
-
-    classifier = trial.suggest_categorical('classifier', ['RandomForest'])
-    
-    if classifier == 'RandomForest':
-        n_estimators = trial.suggest_int('n_estimators', 200, 2000,10)
-        max_depth = int(trial.suggest_float('max_depth', 5, 100, log=True))
-        min_samples_split = trial.suggest_int('min_samples_split', 2, 20,10)
-        min_samples_leaf = trial.suggest_int('min_samples_split', 1, 10,10)
-        max_features=trial.suggest_categorical('max_features', ['auto', 'sqrt','log2'])
-
-        clf = sklearn.ensemble.RandomForestClassifier(
-            n_estimators=n_estimators, max_depth=max_depth,min_samples_split=min_samples_split,min_samples_leaf=min_samples_leaf,max_features=max_features)
-    else:
-        c = trial.suggest_float('svc_c', 1e-10, 1e10, log=True)
-        
-        clf = sklearn.svm.SVC(C=c, gamma='auto')
-
-    return sklearn.model_selection.cross_val_score(
-        clf,X_train,y_train, n_jobs=-1, cv=3).mean()
-        
-
-# Step 2
-study = optuna.create_study(direction='maximize')
-study.optimize(objective, n_trials=100)
-
-trial = study.best_trial
-
-print('Accuracy: {}'.format(trial.value))
-print("Best hyperparameters: {}".format(trial.params))        
-
-
-# Step 3:
-study.best_params
-
-Ouput:
-{'classifier': 'RandomForest',
- 'n_estimators': 1390,
- 'max_depth': 28.447634781475774,
- 'min_samples_split': 12,
- 'max_features': 'log2'}
-
-# Step 4: now take those parameter specified in step 3
-rf=RandomForestClassifier(n_estimators=1390,max_depth=28,min_samples_split=12, max_features='log2')
-rf.fit(X_train,y_train)
-
-# Step 5
-from sklearn.metrics import confusion_matrix,classification_report,accuracy_score
-y_pred=rf.predict(X_test)
-print(confusion_matrix(y_test,y_pred))
-print(accuracy_score(y_test,y_pred))
-print(classification_report(y_test,y_pred))
-
-
-
-
-################################################################## Spot-Check Classificationcation Algorithms ###################################
-
-# Compare Algorithms
-from pandas import read_csv
-from matplotlib import pyplot
-from sklearn.model_selection import KFold
-from sklearn.model_selection import cross_val_score
-from sklearn.linear_model import LogisticRegression
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-from sklearn.naive_bayes import GaussianNB
-from sklearn.svm import SVC
-from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier, ExtraTreesClassifier
-from xgboost import XGBClassifier
-from sklearn.ensemble import AdaBoostClassifier
-from lightgbm import LGBMClassifier
-
-# prepare models
-models = []
-models.append(('LR', LogisticRegression()))
-models.append(('LDA', LinearDiscriminantAnalysis()))
-models.append(('KNN', KNeighborsClassifier()))
-models.append(('DT', DecisionTreeClassifier()))
-models.append(('NB', GaussianNB()))
-models.append(('SVM', SVC()))
-models.append(('RF', RandomForestClassifier()))
-models.append(('XGB', XGBClassifier()))
-models.append(('Adaboost', AdaBoostClassifier()))
-models.append(('GBM', GradientBoostingClassifier()))
-models.append(('ETC', ExtraTreesClassifier()))
-models.append(('LGBM', LGBMClassifier()))
-
-# evaluate each model in turn
-results = []
-names = []
-scoring = 'accuracy'
-for name, model in models:
-    kfold = KFold(n_splits=10, random_state=7)
-    cv_results = cross_val_score(model, X_train, y_train, cv=kfold, scoring=scoring)
-    results.append(cv_results)
-    names.append(name)
-    msg = "%s: %f (%f)" % (name, cv_results.mean(), cv_results.std())
-    print(msg)
-    
-# boxplot algorithm comparison
-fig = pyplot.figure(figsize=(10,5))
-fig.suptitle('ML Algorithm Comparison')
-ax = fig.add_subplot(111)
-pyplot.boxplot(results)
-ax.set_xticklabels(names)
-ax.set_xlabel('ML Models')
-ax.set_ylabel('Accuracy')
-pyplot.show()
-
-
-
-################################################################## Spot-Check Regression Algorithms ###################################
-
-
-# Linear Regression
-from pandas import read_csv
-from sklearn.model_selection import KFold
-from sklearn.model_selection import cross_val_score
-from sklearn.linear_model import LinearRegression
-filename = 'housing.csv'
-names = ['CRIM', 'ZN', 'INDUS', 'CHAS', 'NOX', 'RM', 'AGE', 'DIS', 'RAD', 'TAX', 'PTRATIO',
-'B', 'LSTAT', 'MEDV']
-dataframe = read_csv(filename, delim_whitespace=True, names=names)
-array = dataframe.values
-X = array[:,0:13]
-Y = array[:,13]
-kfold = KFold(n_splits=10, random_state=7)
-model = LinearRegression()
-scoring = 'neg_mean_squared_error'
-results = cross_val_score(model, X, Y, cv=kfold, scoring=scoring)
-print(results.mean())
-
-
-# Ridge Regression
-from sklearn.linear_model import Ridge
-model = Ridge()
-
-# Lasso Regression
-from sklearn.linear_model import Lasso
-model = Lasso()
-
-# ElasticNet Regression
-from sklearn.linear_model import ElasticNet
-model = ElasticNet()
-
-
-# KNN Regression
-from sklearn.neighbors import KNeighborsRegressor
-model = KNeighborsRegressor()
-
-
-# Decision Tree Regression
-from sklearn.tree import DecisionTreeRegressor
-model = DecisionTreeRegressor()
-
-
-# SVM Regression
-from sklearn.svm import SVR
-model = SVR()
-
-
-################################################################## Statistical Testing for Comparing Model Performance ###################################
-
-# http://rasbt.github.io/mlxtend/user_guide/evaluate/paired_ttest_resampled/
-
-##### Ex1: Classification example
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.ensemble import RandomForestClassifier
-from mlxtend.data import iris_data
-from sklearn.model_selection import train_test_split
-
-X, y = iris_data()
-
-X_train,  X_test, y_train, y_test = train_test_split(X,y,test_size=0.25, random_state=123)
-
-#clf1=DecisionTreeClassifier(random_state=1)             # Classfier for checking Test 1: Both Model have same performance
-clf1=DecisionTreeClassifier(random_state=1, max_depth=1)  # Classfier for checking Test 2: Both Model have different performance
-clf2=RandomForestClassifier(random_state=1)
-
-score1 = clf1.fit(X_train, y_train).score(X_test, y_test)
-score2 = clf2.fit(X_train, y_train).score(X_test, y_test)
-
-print(f'Decision Tree Classifier Accuracy :  {score1 * 100 :.2f}%')
-print(f'Random Forest Classifier Accuracy :  {score2 * 100 :.2f}%')
-
-#### Ex2: Regression example
-from sklearn.tree import DecisionTreeRegressor
-from sklearn.ensemble import RandomForestRegressor
-from mlxtend.data import boston_housing_data
-from sklearn.model_selection import train_test_split
-
-X,y = boston_housing_data()
-
-
-X_train,  X_test, y_train, y_test = train_test_split(X,y,test_size=0.25, random_state=123)
-
-clf1=DecisionTreeRegressor(random_state=1)            
-clf2=RandomForestRegressor(random_state=1)
-
-score1 = clf1.fit(X_train, y_train).score(X_test, y_test)
-score2 = clf2.fit(X_train, y_train).score(X_test, y_test)
-
-print(f'Decision Tree Regressor Accuracy :  {score1 * 100 :.2f}%')
-print(f'Random Forest Regressor Accuracy :  {score2 * 100 :.2f}%')
-
-
-
-### Resampled paired t test
-from mlxtend.evaluate import paired_ttest_resampled
-
-t, p = paired_ttest_resampled(estimator1=clf1,
-                              estimator2=clf2,
-                              X=X, y=y,
-                              random_seed=1)
-
-print('t statistic: %.3f' % t)
-print('p value: %.3f' % p)
-
-if p > 0.05: 
-  print("The performance of the two algorithms are same")
-else: 
-  print("The performance of the two algorithms are significantly different")
-  
-### K Fold paired t test
-from mlxtend.evaluate import paired_ttest_kfold_cv
-
-t, p = paired_ttest_kfold_cv(estimator1=clf1,
-                              estimator2=clf2,
-                              X=X, y=y,
-                              random_seed=1)
-
-print('t statistic: %.3f' % t)
-print('p value: %.3f' % p)
-
-if p > 0.05: 
-  print("The performance of the two algorithms are same")
-else: 
-  print("The performance of the two algorithms are significantly different")
-  
-
-### 5x2cv paired t test
-
-# This is better as compared to above 2 methods The 5x2cv paired t test is a procedure for comparing the performance of two models (classifiers or regressors) 
-# that was proposed by Dietterich [1] to address shortcomings in other methods such as the resampled paired t test (see paired_ttest_resampled) 
-# and the k-fold cross-validated paired t test (see paired_ttest_kfold_cv).
-
-from mlxtend.evaluate import paired_ttest_5x2cv
-
-t, p = paired_ttest_5x2cv(estimator1=clf1,
-                          estimator2=clf2,
-                          X=X, y=y,
-                          random_seed=1)
-
-print('t statistic: %.3f' % t)
-print('p value: %.3f' % p)
-
-if p > 0.05: 
-  print("The performance of the two algorithms are same")
-else: 
-  print("The performance of the two algorithms are significantly different")
-  

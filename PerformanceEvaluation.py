@@ -42,41 +42,6 @@ print('RMSE:', np.sqrt(metrics.mean_squared_error(y_test, prediction)))
 # MSE: 3057.664128674137
 # RMSE: 55.29614931144968
 
-### 1. Mean Absolute Error
-# Cross Validation Regression MAE
-from pandas import read_csv
-from sklearn.model_selection import KFold
-from sklearn.model_selection import cross_val_score
-from sklearn.linear_model import LinearRegression
-filename = 'housing.csv'
-names = ['CRIM', 'ZN', 'INDUS', 'CHAS', 'NOX', 'RM', 'AGE', 'DIS', 'RAD', 'TAX', 'PTRATIO',
-'B', 'LSTAT', 'MEDV']
-dataframe = read_csv(filename, delim_whitespace=True, names=names)
-array = dataframe.values
-X = array[:,0:13]
-Y = array[:,13]
-kfold = KFold(n_splits=10, random_state=7)
-model = LinearRegression()
-scoring = 'neg_mean_absolute_error'
-results = cross_val_score(model, X, Y, cv=kfold, scoring=scoring)
-print("MAE: %.3f (%.3f)") % (results.mean(), results.std())
-
-
-### 2. MSE
-scoring = 'neg_mean_squared_error'
-
-### 3. R2 score
-scoring = 'r2'
-
-### Errors in % terms
-# Calculate the absolute errors
-errors = abs(predictions - test_labels)
-
-# Calculate mean absolute percentage error (MAPE)
-mape = 100 * (errors / test_labels)
-# Calculate and display accuracy
-accuracy = 100 - np.mean(mape)
-print('Accuracy:', round(accuracy, 2), '%.')
 
 
 # -------------------------------------------------------
@@ -106,36 +71,6 @@ print(classification_report(y_test,y_pred))
 
 avg / total       0.90      0.90      0.90       300
 """
-
-
-### 1. Accuracy
-# Cross Validation Classification Accuracy
-from pandas import read_csv
-from sklearn.model_selection import KFold
-from sklearn.model_selection import cross_val_score
-from sklearn.linear_model import LogisticRegression
-filename = 'pima-indians-diabetes.data.csv'
-names = ['preg', 'plas', 'pres', 'skin', 'test', 'mass', 'pedi', 'age', 'class']
-dataframe = read_csv(filename, names=names)
-array = dataframe.values
-X = array[:,0:8]
-Y = array[:,8]
-kfold = KFold(n_splits=10, random_state=7)
-model = LogisticRegression()
-scoring = 'accuracy'
-results = cross_val_score(model, X, Y, cv=kfold, scoring=scoring)
-print("Accuracy: %.3f (%.3f)") % (results.mean(), results.std())
-
-### 2. Log Loss
-
-scoring = 'neg_log_loss'
-
-### 3. ROC AUC 
-
-scoring = 'roc_auc'
-
-
-
 
 
 
